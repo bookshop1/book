@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="
+         http://www.springframework.org/schema/beans 
+         https://www.springframework.org/schema/beans/spring-beans.xsd
+         http://www.springframework.org/schema/context 
+         https://www.springframework.org/schema/context/spring-context.xsd
+         http://mybatis.org/schema/mybatis-spring 
+         https://mybatis.org/schema/mybatis-spring.xsd
+         http://www.springframework.org/schema/mvc 
+         https://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!-- DB 연결 설정 -->
+    <context:property-placeholder location="/WEB-INF/db.properties"/>
+
+    <bean id="driver" class="oracle.jdbc.driver.OracleDriver"/>
+
+    <!-- HikariCP 설정 -->
+    <bean id="hicariconfig" class="com.zaxxer.hikari.HikariConfig">
+        <property name="driverClassName" value="${jdbc.driver}"/>
+        <property name="jdbcUrl" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+
+    <bean id="hikariDataSource" class="com.zaxxer.hikari.HikariDataSource">
+        <constructor-arg ref="hicariconfig"/>
+    </bean>
+
+    <!-- MyBatis 설정 -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="hikariDataSource"/>
+    </bean>
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="admin, bag, join, login, main, pay, view"/>
+    </bean>
+
+    <mybatis-spring:scan base-package="admin, bag, join, login, main, pay, view"/>
+
+    <!-- 컴포넌트 스캔 -->
+    <context:component-scan base-package="admin, bag, join, login, main, pay, view"/>
+
+    <!-- ViewResolver -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/views/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!-- 파일 업로드 처리 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="10485760"/>
+        <property name="maxInMemorySize" value="4096"/>
+    </bean>
+
+    <!-- ✅ 정적 리소스 매핑 추가 -->
+    <mvc:resources mapping="/images/**" location="/images/" />
+    <mvc:default-servlet-handler/>
+	<mvc:annotation-driven />
+	
+</beans>
