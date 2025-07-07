@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+<context:property-placeholder location="bag/db.properties"/>
+
+<!-- Hikari DataSource는 설정 파일과 DataSource가 분리되어 있다. -->
+
+<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+	<property name="driverClassName" value="${jdbc.driver}"></property>
+	<property name="jdbcUrl" value="${jdbc.url}"></property>
+	<property name="username" value="${jdbc.username}"></property>
+	<property name="password" value="${jdbc.password}"></property>
+</bean>
+
+<bean id="hikariDataSource" class="com.zaxxer.hikari.HikariDataSource">
+	<constructor-arg ref="hikariConfig" />
+</bean>
+
+<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	<property name="dataSource" ref="hikariDataSource"/>
+</bean>	
+
+<!-- @Service를 스캔하는 역할 -->
+<context:component-scan base-package="bag"/>
+<!-- MemberMapper.xml 파일을 스캔하는 역할(객체로 변환) -->
+<mybatis-spring:scan base-package="bag"/>
+
+</beans>
