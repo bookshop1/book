@@ -7,7 +7,7 @@
         <div class="d-flex justify-content-between align-items-center">
             <!-- 왼쪽: 로고 -->
             <div>
-                <a href="/index.jsp" class="text-decoration-none">
+                <a href="/main/main" class="text-decoration-none">
                     <span class="fw-bold fs-4" style="color: skyblue;">BookShop</span>
                 </a>
             </div>
@@ -17,11 +17,11 @@
                 <c:choose>
                     <c:when test="${not empty sessionScope.loginUser}">
                         <span class="me-2">👤 ${sessionScope.loginUser.name}님</span>
-                        <a href="/logout.jsp" class="btn btn-sm btn-outline-danger me-2">로그아웃</a>
-                        <a href="/cart.jsp" class="btn btn-sm btn-outline-primary">🛒 장바구니</a>
+                        <a href="/logout/logoutform" class="btn btn-sm btn-outline-danger me-2">로그아웃</a>
+                        <a href="/cart" class="btn btn-sm btn-outline-primary">🛒 장바구니</a>
                     </c:when>
                     <c:otherwise>
-                        <a href="/login/loginform.jsp" class="btn btn-sm btn-outline-secondary me-2">로그인</a>
+                        <a href="/login/loginform" class="btn btn-sm btn-outline-secondary me-2">로그인</a>
                         <a href="/join/joinform" class="btn btn-sm btn-outline-secondary me-2">회원가입</a>
                         <a href="/cart.jsp" class="btn btn-sm btn-outline-primary">🛒 장바구니</a>
                     </c:otherwise>
