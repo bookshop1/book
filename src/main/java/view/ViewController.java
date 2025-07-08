@@ -23,6 +23,7 @@ public class ViewController {
 		model.addAttribute("view", view);
 		
 		return "detail";
+		
 	}
 	
 	

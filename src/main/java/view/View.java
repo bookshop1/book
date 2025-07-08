@@ -14,4 +14,5 @@ public class View {
 	private String author;
 	private int price;
 	private String info;
+	
 }

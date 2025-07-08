@@ -8,4 +8,5 @@ public interface ViewMapper {
 	
 	@Select("select * from book where b_id = #{id}")
 	public View findById(int id);
+	
 }

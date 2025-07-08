@@ -61,5 +61,4 @@
     <mvc:resources mapping="/images/**" location="/images/" />
     <mvc:default-servlet-handler/>
 	<mvc:annotation-driven />
-	
 </beans>

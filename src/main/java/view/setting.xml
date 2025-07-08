@@ -41,5 +41,4 @@
     <!-- 정적 리소스 경로 매핑 (e.g. /images/book/1.jpg) -->
     <mvc:resources mapping="/images/**" location="/images/"/>
     <mvc:annotation-driven/>
-
 </beans>
