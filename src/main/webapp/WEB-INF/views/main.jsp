@@ -2,6 +2,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="ko">
+<%@ include file="header.jsp" %>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -37,55 +38,42 @@
 </head>
 <body>
 
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
-    <div class="container">
-      <a class="navbar-brand" href="#">MyBookShop</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item"><a class="nav-link active" href="#">홈</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">베스트셀러</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">신간</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">이벤트</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-
   <!-- Main Content -->
   <main class="container py-5">
     <h2 class="fw-semibold mb-4">📚 추천 도서</h2>
 
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
       <c:forEach var="book" items="${books}">
-        <div class="col">
-          <div class="card h-100 border-0 shadow-sm">
-            <img src="/images/book/${book.pic}" class="card-img-top" alt="책 표지" />
-            <div class="card-body">
-              <h5 class="card-title">${book.title}</h5>
-              <p class="text-secondary mb-1">저자: ${book.author}</p>
-              <p class="card-text line-clamp-2">${book.info}</p>
-            </div>
-            <div class="card-footer bg-white border-0 pt-0">
-              <span class="fw-bold fs-5 card-price">
-                ₩ ${book.price}
-              </span>
-            </div>
-          </div>
-        </div>
-      </c:forEach>
+  <div class="col">
+    <div class="card h-100 border-0 shadow-sm">
+      
+      <!-- 이미지 클릭 시 상세 페이지로 이동 -->
+      <a href="/view/detail?id=${book.id}">
+        <img src="/images/book/${book.pic}" class="card-img-top" alt="책 표지" />
+      </a>
+      
+      <div class="card-body">
+        <!-- 제목 클릭 시 상세 페이지로 이동 -->
+        <h5 class="card-title">
+          <a href="/view/detail?id=${book.id}" class="text-decoration-none text-dark">
+            ${book.title}
+          </a>
+        </h5>
+        <p class="text-secondary mb-1">저자: ${book.author}</p>
+        <p class="card-text line-clamp-2">${book.info}</p>
+      </div>
+      
+      <div class="card-footer bg-white border-0 pt-0">
+        <span class="fw-bold fs-5 card-price">₩ ${book.price}</span>
+      </div>
+    </div>
+  </div>
+</c:forEach>
     </div>
   </main>
 
   <!-- Footer -->
-  <footer class="bg-white text-center py-4 border-top mt-auto">
-    <div class="container small">
-      ⓒ 2025 MyBookShop. All rights reserved.
-    </div>
-  </footer>
+  <%@ include file="footer.jsp" %>
 
   <!-- Bootstrap Bundle JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
