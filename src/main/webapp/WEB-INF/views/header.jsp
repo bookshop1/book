@@ -21,8 +21,8 @@
                         <a href="/cart.jsp" class="btn btn-sm btn-outline-primary">🛒 장바구니</a>
                     </c:when>
                     <c:otherwise>
-                        <a href="/loginform.jsp" class="btn btn-sm btn-outline-secondary me-2">로그인</a>
-                        <a href="/joinform.jsp" class="btn btn-sm btn-outline-secondary me-2">회원가입</a>
+                        <a href="/login/loginform.jsp" class="btn btn-sm btn-outline-secondary me-2">로그인</a>
+                        <a href="/join/joinform" class="btn btn-sm btn-outline-secondary me-2">회원가입</a>
                         <a href="/cart.jsp" class="btn btn-sm btn-outline-primary">🛒 장바구니</a>
                     </c:otherwise>
                 </c:choose>
