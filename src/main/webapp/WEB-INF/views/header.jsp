@@ -12,7 +12,7 @@
                 </a>
             </div>
 
-            <!-- 오른쪽: 로그인/회원가입/장바구니 or 로그아웃 -->
+            <!-- 오른쪽: 로그인/회원가입/장바구니 or 로그아웃/마이페이지 -->
             <div class="d-flex align-items-center">
                 <c:choose>
                     <c:when test="${not empty sessionScope.loginUser}">
@@ -21,8 +21,8 @@
                         <a href="/cart.jsp" class="btn btn-sm btn-outline-primary">🛒 장바구니</a>
                     </c:when>
                     <c:otherwise>
-                        <a href="/login.jsp" class="btn btn-sm btn-outline-secondary me-2">로그인</a>
-                        <a href="/signup.jsp" class="btn btn-sm btn-outline-secondary me-2">회원가입</a>
+                        <a href="/loginform.jsp" class="btn btn-sm btn-outline-secondary me-2">로그인</a>
+                        <a href="/joinform.jsp" class="btn btn-sm btn-outline-secondary me-2">회원가입</a>
                         <a href="/cart.jsp" class="btn btn-sm btn-outline-primary">🛒 장바구니</a>
                     </c:otherwise>
                 </c:choose>
