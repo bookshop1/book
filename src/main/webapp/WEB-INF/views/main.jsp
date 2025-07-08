@@ -2,6 +2,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="ko">
+<%@ include file="header.jsp" %>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -37,24 +38,6 @@
 </head>
 <body>
 
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
-    <div class="container">
-      <a class="navbar-brand" href="#">MyBookShop</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item"><a class="nav-link active" href="#">홈</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">베스트셀러</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">신간</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">이벤트</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-
   <!-- Main Content -->
   <main class="container py-5">
     <h2 class="fw-semibold mb-4">📚 추천 도서</h2>
@@ -81,11 +64,7 @@
   </main>
 
   <!-- Footer -->
-  <footer class="bg-white text-center py-4 border-top mt-auto">
-    <div class="container small">
-      ⓒ 2025 MyBookShop. All rights reserved.
-    </div>
-  </footer>
+  <%@ include file="footer.jsp" %>
 
   <!-- Bootstrap Bundle JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
