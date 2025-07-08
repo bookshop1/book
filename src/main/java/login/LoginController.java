@@ -17,13 +17,13 @@ public class LoginController {
     @Autowired
     private LoginService service;
 
-    // ë¡œê·¸ì¸ í™”ë©´ ë„ìš°ê¸°
+    // ·Î±×ÀÎ È­¸é ¶ç¿ì±â
     @GetMapping("/loginform")
     public String loginForm() {
-        return "loginform"; // login.jsp ë˜ëŠ” login.html (ë·° ì´ë¦„)
+        return "loginform"; // login.jsp ¶Ç´Â login.html (ºä ÀÌ¸§)
     }
 
-    // ë¡œê·¸ì¸ ì²˜ë¦¬
+    // ·Î±×ÀÎ Ã³¸®
     @PostMapping("/login")
     public String loginProcess(@RequestParam("id") String id,
             @RequestParam("password") String password,
@@ -33,13 +33,13 @@ public class LoginController {
     	int result = service.login(id, password);
 
     	if (result == 1) {
-			// ë¡œê·¸ì¸ ì„±ê³µ ì‹œ ì„¸ì…˜ ì €ì¥ ë“± ì²˜ë¦¬ í›„ ë¦¬ë””ë ‰íŠ¸
+			// ·Î±×ÀÎ ¼º°ø ½Ã ¼¼¼Ç ÀúÀå µî Ã³¸® ÈÄ ¸®µğ·ºÆ®
 			session.setAttribute("loginId", id);
-			return "redirect:/home"; // ë©”ì¸ í˜ì´ì§€ë‚˜ ëŒ€ì‹œë³´ë“œë¡œ
+			return "redirect:/home"; // ¸ŞÀÎ ÆäÀÌÁö³ª ´ë½Ãº¸µå·Î
 		} else {
-			// ë¡œê·¸ì¸ ì‹¤íŒ¨ ì‹œ ë‹¤ì‹œ ë¡œê·¸ì¸ í˜ì´ì§€ë¡œ, ì—ëŸ¬ ë©”ì‹œì§€ ì „ë‹¬
-			model.addAttribute("errorMsg", "ì•„ì´ë”” ë˜ëŠ” ë¹„ë°€ë²ˆí˜¸ê°€ ì˜ëª»ë˜ì—ˆìŠµë‹ˆë‹¤.");
-			return "loginform"; // JSP ìœ„ì¹˜ (ì˜ˆ: /WEB-INF/views/login/loginForm.jsp)
+			// ·Î±×ÀÎ ½ÇÆĞ ½Ã ´Ù½Ã ·Î±×ÀÎ ÆäÀÌÁö·Î, ¿¡·¯ ¸Ş½ÃÁö Àü´Ş
+			model.addAttribute("errorMsg", "¾ÆÀÌµğ ¶Ç´Â ºñ¹Ğ¹øÈ£°¡ Àß¸øµÇ¾ú½À´Ï´Ù.");
+			return "loginform"; // JSP À§Ä¡ (¿¹: /WEB-INF/views/login/loginForm.jsp)
 		}
 	}
 }

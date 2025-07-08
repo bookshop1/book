@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="ko">
+<%@ include file="header.jsp" %>
 <head>
     <meta charset="UTF-8">
     <title>로그인</title>
