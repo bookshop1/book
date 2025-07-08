@@ -23,7 +23,7 @@ public class ViewController {
 		model.addAttribute("view", view);
 		
 		return "detail";
-		
+		//접근 url http://localhost:8888/view/detail?id=3 이런식으로 하시면 됩니다.
 	}
 	
 	
