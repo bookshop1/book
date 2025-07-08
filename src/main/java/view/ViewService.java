@@ -5,13 +5,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ViewService {
-	
-	@Autowired
-	ViewMapper mapper;
+    
+    @Autowired
+    ViewMapper mapper;
 
-	public View getDetail(int id) {
-		return mapper.findById(id);
-	}
-	
-	
+    public View getDetail(int id) {
+        return mapper.findById(id);
+    }
 }
