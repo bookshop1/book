@@ -11,10 +11,6 @@ http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd">
 <param-name>encoding</param-name>
 <param-value>UTF-8</param-value>
 </init-param>
-<init-param>
-    <param-name>contextConfigLocation</param-name>
-    <param-value>/WEB-INF/dispatcher-servlet.xml</param-value>
-</init-param>
 </servlet>
 <servlet-mapping>
 <servlet-name>dispatcher</servlet-name>
