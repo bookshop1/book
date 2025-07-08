@@ -7,7 +7,7 @@
         <div class="d-flex justify-content-between align-items-center">
             <!-- 왼쪽: 로고 -->
             <div>
-                <a href="/main/main" class="text-decoration-none">
+                <a href="/main" class="text-decoration-none">
                     <span class="fw-bold fs-4" style="color: skyblue;">BookShop</span>
                 </a>
             </div>
