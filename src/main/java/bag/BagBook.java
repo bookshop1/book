@@ -16,6 +16,7 @@ import lombok.ToString;
 public class BagBook {
     private int b_id;      // b_id 매핑됨
     private String title;
+    private String pic;
     private int quantity;
     private int price;
 }
