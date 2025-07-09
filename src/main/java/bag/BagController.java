@@ -42,6 +42,20 @@ public class BagController {
 		 }
 	    }
 
+
+	/*
+ CREATE TABLE bag (
+    u_id NUMBER,        -- 사용자
+    b_id NUMBER,        -- 책
+    quantity NUMBER,    -- 수량
+    PRIMARY KEY (u_id, b_id),
+    FOREIGN KEY (u_id) REFERENCES users(u_id),
+    FOREIGN KEY (b_id) REFERENCES book(b_id)
+);
+INSERT INTO bag (u_id, b_id, quantity) VALUES (1, 1, 2);
+INSERT INTO bag (u_id, b_id, quantity) VALUES (1, 2, 3);
+확인용 테이블
+	*/
 	    @PostMapping("/bagdelete")
 	    public String deleteItem(@RequestParam int b_id, HttpSession session) {
 	        Integer userId = (Integer) session.getAttribute("userId");
