@@ -3,7 +3,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8" />
-    <title>회원가입 | BookStore</title>
+    <title>회원가입 | BookShop</title>
     <!-- 구글 폰트 및 아이콘 -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css">
@@ -160,7 +160,7 @@
     <div class="signup-container">
         <div class="logo">
             <i class="ri-book-open-line"></i>
-            <span>BookStore</span>
+            <span>BookShop</span>
         </div>
         <h2>회원가입</h2>
         <form id="signupForm" class="signup-form" action="/join/register" method="post" autocomplete="off" novalidate>
