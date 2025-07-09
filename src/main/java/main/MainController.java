@@ -17,10 +17,15 @@ public class MainController {
 	MainService service;
 	
 	@GetMapping
-	public String list(Model model) {
-		List<Book> books = service.findAll();
-		model.addAttribute("books", books);
-		return "main";
+	public String list(@RequestParam(value = "keyword", required = false) String keyword, Model model) {
+	    List<Book> books;
+	    if (keyword != null && !keyword.trim().isEmpty()) {
+	        books = service.search(keyword);
+	    } else {
+	        books = service.findAll();
+	    }
+	    model.addAttribute("books", books);
+	    return "main"; // main.jsp
 	}
 	
 	@GetMapping("/detail")

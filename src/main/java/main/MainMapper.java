@@ -10,4 +10,8 @@ public interface MainMapper {
 
 	@Select("select * from book where num = #{num}")
 	public Book findBookById(int num);
+	
+	@Select("select * from book where title like '%' || #{keyword} || '%' "
+			+ "or author like '%' || #{keyword} || '%'")
+	public List<Book> search(String keyword);
 }
