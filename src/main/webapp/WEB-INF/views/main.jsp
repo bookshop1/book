@@ -48,7 +48,11 @@
           <div class="card h-100 border-0 shadow-sm">
             <img src="/images/book/${book.pic}" class="card-img-top" alt="책 표지" />
             <div class="card-body">
-              <h5 class="card-title">${book.title}</h5>
+              <h5 class="card-title">
+              	<a href="/main/detail?num=${book.num}" class="text-decoration-none text-dark">
+				    ${book.title}
+				</a>
+              </h5>
               <p class="text-secondary mb-1">저자: ${book.author}</p>
               <p class="card-text line-clamp-2">${book.info}</p>
             </div>
