@@ -48,14 +48,14 @@
     <div class="card h-100 border-0 shadow-sm">
       
       <!-- 이미지 클릭 시 상세 페이지로 이동 -->
-      <a href="/view/detail?id=${book.id}">
+      <a href="/view/detail?id=${book.b_id}">
         <img src="/images/book/${book.pic}" class="card-img-top" alt="책 표지" />
       </a>
       
       <div class="card-body">
         <!-- 제목 클릭 시 상세 페이지로 이동 -->
         <h5 class="card-title">
-          <a href="/view/detail?id=${book.id}" class="text-decoration-none text-dark">
+          <a href="/view/detail?id=${book.b_id}" class="text-decoration-none text-dark">
             ${book.title}
           </a>
         </h5>
