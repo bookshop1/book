@@ -14,5 +14,13 @@ public class MainService {
 	public List<Book> findAll() {
 		return mapper.findAll();
 	}
-	
+
+	public Book findBookById(int num) {
+		return mapper.findBookById(num);
+	}
+
+	public List<Book> search(String keyword) {
+		return mapper.search(keyword);
+	}
+
 }

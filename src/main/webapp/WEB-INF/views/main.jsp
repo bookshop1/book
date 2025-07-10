@@ -44,6 +44,7 @@
 
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
       <c:forEach var="book" items="${books}">
+
   <div class="col">
     <div class="card h-100 border-0 shadow-sm">
       
@@ -69,6 +70,28 @@
     </div>
   </div>
 </c:forEach>
+
+        <div class="col">
+          <div class="card h-100 border-0 shadow-sm">
+            <img src="/images/book/${book.pic}" class="card-img-top" alt="책 표지" />
+            <div class="card-body">
+              <h5 class="card-title">
+              	<a href="/main/detail?num=${book.num}" class="text-decoration-none text-dark">
+				    ${book.title}
+				</a>
+              </h5>
+              <p class="text-secondary mb-1">저자: ${book.author}</p>
+              <p class="card-text line-clamp-2">${book.info}</p>
+            </div>
+            <div class="card-footer bg-white border-0 pt-0">
+              <span class="fw-bold fs-5 card-price">
+                ₩ ${book.price}
+              </span>
+            </div>
+          </div>
+        </div>
+
+
     </div>
   </main>
 
