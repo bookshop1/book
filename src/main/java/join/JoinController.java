@@ -20,7 +20,7 @@ public class JoinController {
     @RequestMapping("/register")
     public String register(UserVO user, Model model) {
         int result = joinService.register(user);
-        model.addAttribute("msg", result > 0 ? "íšŒì›ê°€ìž… ì„±ê³µ!" : "íšŒì›ê°€ìž… ì‹¤íŒ¨");
+        model.addAttribute("msg", result > 0 ? "È¸¿ø°¡ÀÔ ¼º°ø!" : "È¸¿ø°¡ÀÔ ½ÇÆÐ");
         return "joinResult"; 
     }
 }

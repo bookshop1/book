@@ -99,9 +99,9 @@
         <span class="icon-success"><i class="ri-checkbox-circle-fill"></i></span>
         <h2>회원가입이 완료되었습니다!</h2>
         <p>BookStore에 오신 것을 환영합니다.<br>이제 다양한 도서와 서비스를 만나보세요.</p>
-        <form action="/main" method="get">
-            <button type="submit" class="main-btn">메인으로</button>
-        </form>
+        <form action="/login/loginform" method="get">
+    <button type="submit" class="main-btn">로그인으로</button>
+</form>
     </div>
 </body>
 </html>
