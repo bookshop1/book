@@ -6,7 +6,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>도서 쇼핑몰</title>
+  <title>관리자 도서 관리</title>
 
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
@@ -34,71 +34,64 @@
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
+    .admin-btn {
+      font-size: 0.85rem;
+    }
   </style>
 </head>
 <body>
 
   <!-- Main Content -->
   <main class="container py-5">
-    <h2 class="fw-semibold mb-4">📚 추천 도서</h2>
 
+    <!-- 상단 제목 + 추가 버튼 -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2 class="fw-semibold">📚 도서 관리 (관리자)</h2>
+      <a href="/admin/addform" class="btn btn-primary">+ 도서 추가</a>
+    </div>
+
+    <!-- 도서 카드 -->
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
       <c:forEach var="book" items="${books}">
-
-  <div class="col">
-    <div class="card h-100 border-0 shadow-sm">
-      
-      <!-- 이미지 클릭 시 상세 페이지로 이동 -->
-      <a href="/view/detail?id=${book.b_id}">
-        <img src="/images/book/${book.pic}" class="card-img-top" alt="책 표지" />
-      </a>
-      
-      <div class="card-body">
-        <!-- 제목 클릭 시 상세 페이지로 이동 -->
-        <h5 class="card-title">
-          <a href="/view/detail?id=${book.b_id}" class="text-decoration-none text-dark">
-            ${book.title}
-          </a>
-        </h5>
-        <p class="text-secondary mb-1">저자: ${book.author}</p>
-        <p class="card-text line-clamp-2">${book.info}</p>
-      </div>
-      
-      <div class="card-footer bg-white border-0 pt-0">
-        <span class="fw-bold fs-5 card-price">₩ ${book.price}</span>
-      </div>
-    </div>
-  </div>
-</c:forEach>
-
         <div class="col">
           <div class="card h-100 border-0 shadow-sm">
-            <img src="/images/book/${book.pic}" class="card-img-top" alt="책 표지" />
+            <a href="/view/detail?id=${book.b_id}">
+              <img src="/images/book/${book.pic}" class="card-img-top" alt="책 표지" />
+            </a>
+
             <div class="card-body">
               <h5 class="card-title">
-              	<a href="/main/detail?num=${book.num}" class="text-decoration-none text-dark">
-				    ${book.title}
-				</a>
+                <a href="/view/detail?id=${book.b_id}" class="text-decoration-none text-dark">
+                  ${book.title}
+                </a>
               </h5>
               <p class="text-secondary mb-1">저자: ${book.author}</p>
               <p class="card-text line-clamp-2">${book.info}</p>
             </div>
+
             <div class="card-footer bg-white border-0 pt-0">
-              <span class="fw-bold fs-5 card-price">
-                ₩ ${book.price}
-              </span>
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="fw-bold fs-5 card-price">₩ ${book.price}</span>
+              </div>
+
+              <!-- 관리자 수정/삭제 버튼 -->
+				<div class="d-flex justify-content-between">
+				  <a href="/admin/edit/${book.b_id}" class="btn btn-outline-primary btn-sm admin-btn">수정</a>
+				  <a href="/admin/delete/${book.b_id}" class="btn btn-outline-danger btn-sm admin-btn" 
+				     onclick="return confirm('정말 삭제하시겠습니까?');">
+				    삭제
+				  </a>
+				</div>
             </div>
+
           </div>
         </div>
-
-
+      </c:forEach>
     </div>
   </main>
 
-  <!-- Footer -->
   <%@ include file="footer.jsp" %>
 
-  <!-- Bootstrap Bundle JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </body>
 </html>

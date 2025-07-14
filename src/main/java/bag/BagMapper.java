@@ -11,13 +11,7 @@ import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface BagMapper {
-	@Select("SELECT ba.b_id, b.title, ba.quantity, b.price FROM bag ba JOIN book b ON ba.b_id = b.b_id WHERE ba.u_id = #{u_id}")
-	@Results(id = "bagBookResultMap", value = {
-	        @Result(property = "b_id", column = "b_id"),
-	        @Result(property = "title", column = "title"),
-	        @Result(property = "quantity", column = "quantity"),
-	        @Result(property = "price", column = "price")
-	    })
+	@Select("SELECT ba.b_id, b.title, b.pic, ba.quantity, b.price FROM bag ba JOIN book b ON ba.b_id = b.b_id WHERE ba.u_id = #{u_id}")
     List<BagBook> findBagItemsByUserId(@Param("u_id")int u_id);
 
 	@Select("SELECT NVL(SUM(ba.quantity * b.price), 0) "

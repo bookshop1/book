@@ -23,7 +23,7 @@ public class ViewController {
 		model.addAttribute("view", view);
 		
 		return "detail";
-		//ì ‘ê·¼ url http://localhost:8888/view/detail?id=3 ì´ëŸ°ì‹ìœ¼ë¡œ í•˜ì‹œë©´ ë©ë‹ˆë‹¤.
+		//Á¢±Ù url http://localhost:8888/view/detail?id=3 ÀÌ·±½ÄÀ¸·Î ÇÏ½Ã¸é µË´Ï´Ù.
 	}
 	
 	
