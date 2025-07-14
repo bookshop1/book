@@ -17,7 +17,7 @@
         .logo i { font-size: 34px; color: #357ae1; margin-right: 10px; }
         .logo span { font-size: 1.85rem; font-weight: 700; color: #357ae1; letter-spacing: 1px; }
         .login-container h2 { font-weight: 700; font-size: 1.7rem; color: #222; margin-bottom: 30px; margin-top: 8px; text-align: center; letter-spacing: 0.5px; }
-        .login-form { width: 100%; }
+        .login-form { width: 58%; }
         .input-group { position: relative; margin-bottom: 26px; }
         .input-group label { font-size: 14px; color: #444; font-weight: 500; margin-bottom: 6px; display: block; }
         .input-group .required { color: #e74c3c; margin-left: 3px; }

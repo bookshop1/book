@@ -81,7 +81,7 @@
         color: #b0b8c1; font-size: 20px;
     }
     .input-group input {
-        width: 100%; padding: 13px 14px 13px 44px; border: 1.5px solid #d6e0ea;
+        width: 88%; padding: 13px 14px 13px 44px; border: 1.5px solid #d6e0ea;
         border-radius: 8px; font-size: 16px; color: #2d3a4b; background: #f9fbfd;
         outline: none; transition: border-color 0.25s, box-shadow 0.25s; font-family: inherit;
     }
