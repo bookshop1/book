@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-5.6.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- HTTP 보안 설정 -->
+	<!-- url 확인, 로그인, 로그아웃 (http)
+		 회원에 대한 로그인 정보 (authentication-manager)
+		 intercept-url을 자바 파일에서 처리 가능
+		 회원에 대한 로그인 정보를 데이터베이스로 사용하기 위해 자바	 
+	-->
+	
+	
+    <security:http auto-config="true" use-expressions="true">  	
+    	
+    	<!-- 인증된 사용자만 페이지를 볼 수 있으며 그 외 사용자는 로그인 페이지로 이동 -->
+    	<security:intercept-url pattern="/**" access="isAuthenticated()" />
+    	
+    	<security:http-basic entry-point-ref="authenticationEntryPoint"/>
+    	
+		<!-- 로그인 -->
+        <security:form-login 
+        login-page="/login/login"	 
+        default-target-url="/user/index" 
+        authentication-failure-url="/login/login?error=true" 
+        username-parameter="username" 
+        password-parameter="password"
+        authentication-success-handler-ref="loginSuccess"
+        />
+        
+        <!-- 로그인 성공 시 이동할 객체 클래스 지정 : authentication-success-handler-ref -->
+        <!-- 접근 권한이 없는 계정이 접근했을 때 클래스로 접근 불가 처리 -->
+		<security:access-denied-handler ref="accessDenied" />
+		
+		<security:intercept-url pattern="/logout" access="permitAll" />
+
+		<!-- 로그아웃 -->
+        <security:logout 
+        logout-url="/logout" 
+        logout-success-url="/login/login?logout=true" />
+    </security:http>
+    
+    <!-- 접근권한 성공/실패 시 사용자 bean 객체 생성 -->
+    <beans:bean id="loginSuccess" class="login.CustomerLoginSuccessHandler" />
+    <beans:bean id="accessDenied" class="login.CustomerLoginDeniedHandler" />
+
+	<!-- provider user-service-ref : 자바 파일을 사용한다는 의미 
+		 즉, mvc 모델을 사용하겠다는 의미
+		 loginService는 login/loginService는 객체를 사용자가 만들지만
+		 security에서 구현할 객체(UserDetailService)를 받아서 처리
+		
+		 password-encoder ref="bpe" : UserDetailsService에서 암호를 적용하여 처리하게 됨 
+	-->
+    <security:authentication-manager>
+        <security:authentication-provider user-service-ref="loginService">
+        	<security:password-encoder ref="bpe" />
+        </security:authentication-provider>
+    </security:authentication-manager>
+    
+    <beans:bean id="bpe" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+
+	<!-- localhost:8888 실행할 경우 무조건 로그인 페이지로 이동 -->
+	<beans:bean id="authenticationEntryPoint" class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+		<beans:constructor-arg name="loginFormUrl" value="/login/login" />
+	</beans:bean>
+</beans:beans>
