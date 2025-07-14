@@ -200,7 +200,7 @@
         </form>
         <div class="signup-footer">
             이미 회원이신가요?
-            <a href="/login">로그인</a>
+            <a href="/login/loginform">로그인</a>
         </div>
     </div>
 </body>
