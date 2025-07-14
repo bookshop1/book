@@ -61,11 +61,12 @@
 		    <!-- 버튼 -->
 		    <div class="btn-group-custom text-center mt-2">
 		        <a href="#" class="btn btn-outline-primary">🛒 장바구니</a>
-		        <a href="#" class="btn btn-danger">💳 구매하기</a>
+		        <a href="/pay" class="btn btn-danger">💳 구매하기</a>
 		    </div>
 		</div>
     </div>
 </div>
-
+ <!-- Footer -->
+  <%@ include file="detail_footer.jsp" %>
 </body>
 </html>
