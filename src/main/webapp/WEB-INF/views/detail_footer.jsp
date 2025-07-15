@@ -5,7 +5,7 @@
       bottom: 0;">
   <div class="d-flex align-items-center gap-2">
     <span>총 상품 금액</span>
-    <strong class="fs-5">15,300원</strong>
+    <strong class="fs-5">${view.price}원</strong>
   </div>
 
   <div class="d-flex align-items-center gap-2">

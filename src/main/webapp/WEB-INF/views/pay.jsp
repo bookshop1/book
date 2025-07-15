@@ -64,7 +64,7 @@
       </thead>
       <tbody>
         <tr>
-          <td>${book.title}</td>
+          <td>${view.title}</td>
           <td></td>
           <td></td>
         </tr>
