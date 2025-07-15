@@ -59,10 +59,16 @@
 		</div>
 
 		    <!-- 버튼 -->
-		    <div class="btn-group-custom text-center mt-2">
-		        <a href="#" class="btn btn-outline-primary">🛒 장바구니</a>
-		        <a href="/pay" class="btn btn-danger">💳 구매하기</a>
-		    </div>
+		    <form action="/pay" method="get">
+			    <input type="hidden" name="title" value="${view.title}">
+			    <input type="hidden" name="price" value="${view.price}">
+			    <input type="hidden" name="qty" value="1">
+			    
+			    <div class="btn-group-custom text-center mt-2">
+			        <a href="/bag/bagform" class="btn btn-outline-primary">🛒 장바구니</a>
+			        <button type="submit" class="btn btn-danger">💳 구매하기</button>
+			    </div>
+		    </form>
 		</div>
     </div>
 </div>

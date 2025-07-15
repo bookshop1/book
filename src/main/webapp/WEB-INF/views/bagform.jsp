@@ -89,7 +89,12 @@
                         <div class="fs-5"><strong>총합계</strong></div>
                         <div class="fs-5 text-primary"><strong>${totalPrice}원</strong></div>
                     </div>
-                    <form action="/order/checkout" method="post" class="mt-3 text-end">
+                    <form action="/pay" method="post" class="mt-3 text-end">
+                   		<c:forEach var="book" items="${bagItems}">
+		                    <input type="hidden" name="title" value="${book.title}">
+						    <input type="hidden" name="price" value="${book.price}">
+						    <input type="hidden" name="qty" value="${book.quantity}">
+					    </c:forEach>
                         <button type="submit" class="btn btn-success btn-lg">
                             <i class="fas fa-credit-card"></i> 주문하기
                         </button>
