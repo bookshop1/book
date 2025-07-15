@@ -4,7 +4,8 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8" />
-    <title>로그인 | BookShop</title>
+	<title>로그인 | BookShop</title>
+	
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css">
     <style>
@@ -13,7 +14,7 @@
         .book-bg { position: absolute; right: 0; bottom: 0; width: 530px; opacity: 0.12; z-index: 0; pointer-events: none; user-select: none; }
         .login-container { background: #fff; width: 430px; padding: 46px 44px 38px 44px; border-radius: 18px; box-shadow: 0 12px 40px rgba(52, 112, 219, 0.13); display: flex; flex-direction: column; align-items: center; z-index: 1; animation: fadeIn 0.9s; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(40px);} to { opacity: 1; transform: translateY(0);} }
-        .logo { display: flex; align-items: center; margin-bottom: 10px; }
+        .logo { display: flex; align-items: center; margin-bottom: 10px;text-decoration: none; /* 밑줄 제거 */ }
         .logo i { font-size: 34px; color: #357ae1; margin-right: 10px; }
         .logo span { font-size: 1.85rem; font-weight: 700; color: #357ae1; letter-spacing: 1px; }
         .login-container h2 { font-weight: 700; font-size: 1.7rem; color: #222; margin-bottom: 30px; margin-top: 8px; text-align: center; letter-spacing: 0.5px; }
@@ -44,10 +45,10 @@
 <body>
     <img class="book-bg" src="/images/bookshelf.svg" alt="bookshelf background" />
     <div class="login-container">
-        <div class="logo">
+        <a href="/main" class="logo">
             <i class="ri-book-open-line"></i>
             <span>BookShop</span>
-        </div>
+        </a>
         <h2>로그인</h2>
         <c:if test="${not empty errorMsg}">
             <div class="alert">${errorMsg}</div>
