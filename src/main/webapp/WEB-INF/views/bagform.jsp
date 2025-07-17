@@ -94,7 +94,7 @@
                    		<c:forEach var="book" items="${bagItems}">
 		                    <input type="hidden" name="title" value="${book.title}">
 						    <input type="hidden" name="price" value="${book.price}">
-						    <input type="hidden" name="qty" value="${book.quantity}">
+						    <input type="hidden" name="quantity" value="${book.quantity}">
 					    </c:forEach>
                         <button type="submit" class="btn btn-success btn-lg">
                             <i class="fas fa-credit-card"></i> 주문하기

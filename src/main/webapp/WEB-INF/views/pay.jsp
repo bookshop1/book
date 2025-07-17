@@ -3,6 +3,7 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
+<%@ include file="header.jsp" %>
 <head>
   <meta charset="UTF-8">
   <title>결제 페이지</title>
@@ -19,6 +20,7 @@
   </style>
 </head>
 <body>
+<form action="/paySuccess" method="post">
 <div class="container my-5">
   <h2 class="mb-4">결제 페이지</h2>
 
@@ -27,10 +29,10 @@
     <div class="section-title">주문자 정보</div>
     <div class="row g-3">
       <div class="col-md-6">
-        <input type="text" class="form-control" placeholder="이름" value="">
+        <input type="text" name="name" class="form-control" placeholder="이름" value="">
       </div>
       <div class="col-md-6">
-        <input type="text" class="form-control" placeholder="연락처" value="">
+        <input type="text" name="num" class="form-control" placeholder="연락처" value="0${sessionScope.loginUser.num}">
       </div>
     </div>
   </div>
@@ -40,13 +42,13 @@
     <div class="section-title">배송지 정보</div>
     <div class="row g-3">
       <div class="col-md-8">
-        <input type="text" class="form-control" placeholder="주소" value="">
+        <input type="text" name="address" class="form-control" placeholder="주소" value="${sessionScope.loginUser.address}">
       </div>
       <div class="col-md-4">
-        <input type="text" class="form-control" placeholder="우편번호" value="">
+        <input type="text" name="post" class="form-control" placeholder="우편번호" value="">
       </div>
       <div class="col-12">
-        <input type="text" class="form-control" placeholder="상세주소">
+        <input type="text" name="detailAddress" class="form-control" placeholder="상세주소">
       </div>
     </div>
   </div>
@@ -66,7 +68,7 @@
         <c:forEach var="item" items="${orderList}">
             <tr>
                 <td>${item.title}</td>
-                <td>${item.qty}</td>
+                <td>${item.quantity}</td>
                 <td>${item.total}원</td>
             </tr>
         </c:forEach>
@@ -81,13 +83,13 @@
       <div class="col-md-6">
         <ul class="list-group">
           <li class="list-group-item d-flex justify-content-between">
-            <span>상품 합계</span><strong></strong>
+            <span>상품 합계</span><strong>${total} 원</strong>
           </li>
           <li class="list-group-item d-flex justify-content-between">
-            <span>배송비</span><strong></strong>
+            <span>배송비</span><strong>0 원</strong>
           </li>
           <li class="list-group-item d-flex justify-content-between">
-            <span>총 결제금액</span><strong class="text-primary fs-5">${total}</strong>
+            <span>총 결제금액</span><strong class="text-primary fs-5">${total} 원</strong>
           </li>
         </ul>
       </div>
@@ -96,9 +98,15 @@
 
   <!-- 5. 결제 버튼 -->
   <div class="text-center mt-4">
-    <button type="button" class="btn btn-primary btn-lg px-5">결제하기</button>
+  <c:forEach var="item" items="${orderList}" varStatus="status">
+	  <input type="hidden" name="quantity" value="${item.quantity}">
+	  <input type="hidden" name="title" value="${item.title}">
+	  <input type="hidden" name="price" value="${item.total}">
+	</c:forEach>
+    <button type="submit" class="btn btn-primary btn-lg px-5">결제하기</button>
   </div>
 </div>
+</form>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
