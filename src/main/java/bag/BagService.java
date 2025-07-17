@@ -20,4 +20,13 @@ public class BagService {
 	public void deleteBag(int u_id, int b_id) {
 		mapper.deleteFromBag(u_id, b_id);
 	}
+	
+	public void addOrUpdateBag(int u_id, int b_id, int quantity) {
+	    Integer count = mapper.countItem(u_id, b_id);
+	    if (count != null && count > 0) {
+	        mapper.updateQty(u_id, b_id, quantity);
+	    } else {
+	        mapper.insertBag(u_id, b_id, quantity);
+	    }
+	}
 }
