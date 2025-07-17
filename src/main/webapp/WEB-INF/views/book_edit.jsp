@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -12,7 +13,7 @@
     <h2>📘 도서 정보 수정</h2>
     <form action="${pageContext.request.contextPath}/admin/edit" method="post">
         <!-- 수정할 도서의 ID는 숨김 필드로 보냄 -->
-        <input type="hidden" name="b_id" value="${book.b_id}"/>
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 
         <div class="mb-3">
             <label for="num" class="form-label">도서 번호</label>

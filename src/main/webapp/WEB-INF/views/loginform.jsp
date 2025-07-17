@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -17,7 +18,7 @@
         .logo i { font-size: 34px; color: #357ae1; margin-right: 10px; }
         .logo span { font-size: 1.85rem; font-weight: 700; color: #357ae1; letter-spacing: 1px; }
         .login-container h2 { font-weight: 700; font-size: 1.7rem; color: #222; margin-bottom: 30px; margin-top: 8px; text-align: center; letter-spacing: 0.5px; }
-        .login-form { width: 100%; }
+        .login-form { width: 58%; }
         .input-group { position: relative; margin-bottom: 26px; }
         .input-group label { font-size: 14px; color: #444; font-weight: 500; margin-bottom: 6px; display: block; }
         .input-group .required { color: #e74c3c; margin-left: 3px; }
@@ -53,18 +54,20 @@
             <div class="alert">${errorMsg}</div>
         </c:if>
         <form class="login-form" action="/login" method="post" autocomplete="off">
-            <div class="input-group">
-                <label for="username">아이디 <span class="required">*</span></label>
-                <i class="ri-user-3-line input-icon"></i>
-                <input type="text" name="username" id="username" placeholder="아이디를 입력하세요" maxlength="20" required>
-            </div>
-            <div class="input-group">
-                <label for="password">비밀번호 <span class="required">*</span></label>
-                <i class="ri-lock-password-line input-icon"></i>
-                <input type="password" name="password" id="password" placeholder="비밀번호를 입력하세요" minlength="6" maxlength="30" required>
-            </div>
-            <button type="submit" class="login-btn">로그인</button>
-        </form>
+    <sec:csrfInput />  <%-- CSRF 토큰 자동 삽입 --%>
+
+    <div class="input-group">
+        <label for="username">아이디 <span class="required">*</span></label>
+        <i class="ri-user-3-line input-icon"></i>
+        <input type="text" name="username" id="username" placeholder="아이디를 입력하세요" maxlength="20" required>
+    </div>
+    <div class="input-group">
+        <label for="password">비밀번호 <span class="required">*</span></label>
+        <i class="ri-lock-password-line input-icon"></i>
+        <input type="password" name="password" id="password" placeholder="비밀번호를 입력하세요" minlength="6" maxlength="30" required>
+    </div>
+    <button type="submit" class="login-btn">로그인</button>
+</form>
         <div class="login-footer">
             아직 회원이 아니신가요?
             <a href="/join/joinform">회원가입</a>

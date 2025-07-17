@@ -57,7 +57,7 @@
         <property name="maxInMemorySize" value="4096"/>
     </bean>
 
-    <!-- ✅ 정적 리소스 매핑 추가 -->
+    <!--  정적 리소스 매핑 추가 -->
     <mvc:resources mapping="/images/**" location="/images/" />
     <mvc:default-servlet-handler/>
 	<mvc:annotation-driven />

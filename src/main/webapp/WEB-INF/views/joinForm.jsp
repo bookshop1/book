@@ -81,7 +81,7 @@
         color: #b0b8c1; font-size: 20px;
     }
     .input-group input {
-        width: 100%; padding: 13px 14px 13px 44px; border: 1.5px solid #d6e0ea;
+        width: 88%; padding: 13px 14px 13px 44px; border: 1.5px solid #d6e0ea;
         border-radius: 8px; font-size: 16px; color: #2d3a4b; background: #f9fbfd;
         outline: none; transition: border-color 0.25s, box-shadow 0.25s; font-family: inherit;
     }
@@ -167,6 +167,7 @@
             <div class="input-group">
                 <label for="id">아이디 <span class="required">*</span></label>
                 <i class="ri-user-3-line input-icon"></i>
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                 <input class="form-input" type="text" name="id" id="id" placeholder="아이디를 입력하세요" maxlength="20">
                 <div class="msg" id="msg-id">아이디를 입력해주세요.</div>
                 <div class="subtext">영문/숫자 4~20자</div>
@@ -200,7 +201,7 @@
         </form>
         <div class="signup-footer">
             이미 회원이신가요?
-            <a href="/login">로그인</a>
+            <a href="/login/loginform">로그인</a>
         </div>
     </div>
 </body>

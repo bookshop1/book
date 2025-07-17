@@ -7,7 +7,7 @@
 <%@ include file="header.jsp" %>
 <head>
     <meta charset="UTF-8">
-    <title>${book.title}</title>
+    <title>${view.title}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .book-image {
@@ -34,38 +34,39 @@
     </div>
 
     <!-- 책 제목 -->
-    <h2 class="text-center mb-5">${book.title}</h2>
+    <h2 class="text-center mb-5">${view.title}</h2>
 
     <!-- 본문 3단 구성 (비율: 3 : 5 : 4) -->
     <div class="row align-items-start">
         <!-- 왼쪽: 저자 + 가격 -->
         <div class="col-md-3 text-center" style="margin-top: 30px;">
             <div class="d-inline-flex justify-content-center align-items-center">
-                <div><strong>저자:</strong> ${book.author}</div>
-                <div class="ms-3"><strong>가격:</strong> <span class="text-danger fw-bold">${book.price}원</span></div>
+                <div><strong>저자:</strong> ${view.author}</div>
+                <div class="ms-3"><strong>가격:</strong> <span class="text-danger fw-bold">${view.price}원</span></div>
             </div>
         </div>
 
         <!-- 가운데: 책 이미지 -->
         <div class="col-md-5 text-center px-2">
-            <img src="/images/book/${book.pic}" alt="${book.title}" class="book-image img-thumbnail">
+            <img src="/images/book/${view.pic}" alt="${view.title}" class="book-image img-thumbnail">
         </div>
 
         <!-- 오른쪽: 책 소개 + 버튼 -->
         <div class="col-md-4 text-start ps-1 d-flex flex-column justify-content-start">
     		<p class="mb-1"><strong>책 소개:</strong></p>
    		 <div class="book-info mb-3" style="white-space: normal;">
-   			 ${book.info}
+   			 ${view.info}
 		</div>
 
 		    <!-- 버튼 -->
 		    <div class="btn-group-custom text-center mt-2">
 		        <a href="#" class="btn btn-outline-primary">🛒 장바구니</a>
-		        <a href="#" class="btn btn-danger">💳 구매하기</a>
+		        <a href="/pay" class="btn btn-danger">💳 구매하기</a>
 		    </div>
 		</div>
     </div>
 </div>
-
+ <!-- Footer -->
+  <%@ include file="detail_footer.jsp" %>
 </body>
 </html>

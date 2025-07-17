@@ -1,15 +1,35 @@
 package login;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-@Service("loginService") //setting.xmlì— beanì„¤ì • í•„ìš”ì—†ëŠ” ëŒ€ì‹  (context-scan) í•´ì¤˜ì•¼í•¨
-public class LoginService {
+@Service("loginService") //setting.xml¿¡ bean¼³Á¤ ÇÊ¿ä¾ø´Â ´ë½Å (context-scan) ÇØÁà¾ßÇÔ
+public class LoginService implements UserDetailsService {
 	@Autowired
 	LoginMapper mapper;
-	public int login(String id, String password) {
-        // ì‹¤ì œ êµ¬í˜„ì€ DBì—ì„œ ì¡°íšŒ í›„ ì¼ì¹˜ ì—¬ë¶€ íŒë‹¨
-        // ì˜ˆ) loginMapper.findByIdAndPassword(id, password) != null
-        return mapper.login(id, password);
-    }
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		MemberVO member = mapper.findById(username);
+		
+		if(username == null) {
+			 throw new UsernameNotFoundException("»ç¿ëÀÚ ¾øÀ½");
+		}
+		
+		List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(member.getRole()));
+
+        return new User(member.getId(), member.getPassword(), authorities);
+	}	
 }

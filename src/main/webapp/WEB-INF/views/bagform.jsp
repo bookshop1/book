@@ -74,6 +74,7 @@
                             <div class="price-cell">${book.price}원</div>
                             <div class="price-cell small text-muted mt-1">합계: ${book.price * book.quantity}원</div>
                             <form action="/bag/bagdelete" method="post" class="mt-2">
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                                 <input type="hidden" name="b_id" value="${book.b_id}"/>
                                 <button type="submit" class="btn btn-outline-danger btn-sm">
                                     <i class="fas fa-trash-alt"></i> 삭제
@@ -90,6 +91,7 @@
                         <div class="fs-5 text-primary"><strong>${totalPrice}원</strong></div>
                     </div>
                     <form action="/order/checkout" method="post" class="mt-3 text-end">
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                         <button type="submit" class="btn btn-success btn-lg">
                             <i class="fas fa-credit-card"></i> 주문하기
                         </button>

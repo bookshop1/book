@@ -8,4 +8,9 @@ import org.apache.ibatis.annotations.Select;
 public interface LoginMapper {
 	@Select("SELECT COUNT(*) FROM users WHERE id = #{id} AND password = #{password}")
 	public int login(@Param("id") String id,@Param("password") String password);
+	
+	
+	@Select("SELECT id, password, role FROM users WHERE id = #{id}")
+	MemberVO findById(@Param("id") String id);
+	
 }
