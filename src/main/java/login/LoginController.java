@@ -38,7 +38,13 @@ public class LoginController {
         if (loginUser != null) {
             // 로그인 성공 시 세션에 사용자 정보 저장
             session.setAttribute("loginUser", loginUser);
-            return "redirect:/main"; // 로그인 성공 시 이동할 페이지
+            session.setAttribute("userId", loginUser.getU_id());
+            
+        	if("ROLE_ADMIN".equals(loginUser.getRole())) {
+
+            return "redirect:/admin/main"; // 로그인 성공 시 이동할 페이지
+        	}else
+        		return "redirect:/main";
         } else {
             model.addAttribute("errorMsg", "아이디 또는 비밀번호가 잘못되었습니다.");
             return "loginform"; // 로그인 실패 시 재로그인 폼
@@ -55,5 +61,3 @@ public class LoginController {
     }
 
 }
-
-
