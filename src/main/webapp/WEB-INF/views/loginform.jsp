@@ -50,9 +50,6 @@
             <span>BookShop</span>
         </a>
         <h2>로그인</h2>
-        <c:if test="${not empty errorMsg}">
-            <div class="alert">${errorMsg}</div>
-        </c:if>
         <form class="login-form" action="/login" method="post" autocomplete="off">
             <div class="input-group">
                 <label for="username">아이디 <span class="required">*</span></label>
@@ -65,6 +62,9 @@
                 <input type="password" name="password" id="password" placeholder="비밀번호를 입력하세요" minlength="6" maxlength="30" required>
             </div>
             <button type="submit" class="login-btn">로그인</button>
+            <input type="hidden" 
+				name="${_csrf.parameterName}"
+				value="${_csrf.token }" />
         </form>
         <div class="login-footer">
             아직 회원이 아니신가요?

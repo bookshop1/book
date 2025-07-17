@@ -59,16 +59,15 @@
 		</div>
 
 		    <!-- 버튼 -->
-		    <form action="/pay" method="get">
-			    <input type="hidden" name="title" value="${view.title}">
-			    <input type="hidden" name="price" value="${view.price}">
-			    <input type="hidden" name="qty" value="1">
+		    <form action="/bag/add" method="post">
+			    <input type="hidden" name="b_id" value="${view.b_id}">
+			    <input type="hidden" name="quantity" value="1">
 			    
 			    <div class="btn-group-custom text-center mt-2">
-			        <a href="/bag/bagform" class="btn btn-outline-primary">🛒 장바구니</a>
-			        <button type="submit" class="btn btn-danger">💳 구매하기</button>
+			        <button type="submit" class="btn btn-outline-primary">🛒 장바구니</button>
+			        <button type="submit" formaction="/pay" class="btn btn-danger">💳 구매하기</button>
 			    </div>
-		    </form>
+			</form>
 		</div>
     </div>
 </div>

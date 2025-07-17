@@ -7,10 +7,19 @@
         <div class="d-flex justify-content-between align-items-center">
             <!-- 왼쪽: 로고 -->
             <div>
-                <a href="/main" class="text-decoration-none">
-                    <span class="fw-bold fs-4" style="color: skyblue;">BookShop</span>
-                </a>
-            </div>
+			    <c:choose>
+			        <c:when test="${sessionScope.loginUser.role eq 'ROLE_ADMIN'}">
+			            <a href="/admin/main" class="text-decoration-none">
+			                <span class="fw-bold fs-4" style="color: skyblue;">BookShop</span>
+			            </a>
+			        </c:when>
+			        <c:otherwise>
+			            <a href="/main" class="text-decoration-none">
+			                <span class="fw-bold fs-4" style="color: skyblue;">BookShop</span>
+			            </a>
+			        </c:otherwise>
+			    </c:choose>
+			</div>
 
             <!-- 중간: 검색 폼 -->
             <form action="/main" method="get" class="d-flex" style="max-width: 300px;">
@@ -28,7 +37,7 @@
                     <c:when test="${not empty sessionScope.loginUser}">
                         <span class="me-2">👤 ${sessionScope.loginUser.id} 님</span>
                         <a href="/login/logout" class="btn btn-sm btn-outline-danger me-2">로그아웃</a>
-                        <a href="/cart" class="btn btn-sm btn-outline-primary">🛒 장바구니</a>
+                        <a href="/bag/bagform" class="btn btn-sm btn-outline-primary">🛒 장바구니</a>
                     </c:when>
 
                   
