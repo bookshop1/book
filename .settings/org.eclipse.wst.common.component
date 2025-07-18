@@ -1,52 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+<<<<<<< HEAD
+                            
+    
+=======
                         
+>>>>>>> 8f77023ec2e0cd6a17350013c13c0b6bc38170fb
     
     
     
     
     <wb-module deploy-name="book-0.0.1-SNAPSHOT">
+<<<<<<< HEAD
+                                                        
+        
+=======
                                                 
+>>>>>>> 8f77023ec2e0cd6a17350013c13c0b6bc38170fb
         
         
         
         
         <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
+<<<<<<< HEAD
+                                                        
+        
+=======
                                                 
+>>>>>>> 8f77023ec2e0cd6a17350013c13c0b6bc38170fb
         
         
         
         
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
+<<<<<<< HEAD
+                                                        
+        
+=======
                                                 
+>>>>>>> 8f77023ec2e0cd6a17350013c13c0b6bc38170fb
         
         
         
         
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+<<<<<<< HEAD
+                                                        
+        
+=======
                                                 
+>>>>>>> 8f77023ec2e0cd6a17350013c13c0b6bc38170fb
         
         
         
         
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+                
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/java"/>
+<<<<<<< HEAD
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/resources"/>
+                                                        
+        
+=======
                                                 
+>>>>>>> 8f77023ec2e0cd6a17350013c13c0b6bc38170fb
         
         
         
         
         <property name="java-output-path" value="/book/target/classes"/>
+<<<<<<< HEAD
+                                        
+        
+        
+        
+        <property name="context-root" value="book"/>
+                                                    
+=======
                                 
         
         
         <property name="context-root" value="book"/>
                                             
+>>>>>>> 8f77023ec2e0cd6a17350013c13c0b6bc38170fb
     
     
     
+    
+<<<<<<< HEAD
     
     </wb-module>
+                        
+
+=======
+    </wb-module>
                     
+>>>>>>> 8f77023ec2e0cd6a17350013c13c0b6bc38170fb
 
 
 
