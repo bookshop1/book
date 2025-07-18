@@ -1,4 +1,4 @@
-package bag;
+package pay;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,12 +19,4 @@ public class BagBook {
     private String pic;
     private int quantity;
     private int price;
-    private int paymentId;
-	private int userId;
-	private String name;
-	private String num;
-	private String address;
-	private String post;
-	private String detailAddress;
-
 }

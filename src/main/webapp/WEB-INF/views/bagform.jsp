@@ -84,19 +84,25 @@
                     </div>
                 </c:forEach>
 
-                <!-- 총합 영역 -->
-                <div class="summary-box mt-4">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="fs-5"><strong>총합계</strong></div>
-                        <div class="fs-5 text-primary"><strong>${totalPrice}원</strong></div>
-                    </div>
-                    <form action="/order/checkout" method="post" class="mt-3 text-end">
-                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-                        <button type="submit" class="btn btn-success btn-lg">
-                            <i class="fas fa-credit-card"></i> 주문하기
-                        </button>
-                    </form>
-                </div>
+			      <!-- 총합 영역 -->
+			<div class="summary-box mt-4">
+			    <div class="d-flex justify-content-between align-items-center">
+			        <div class="fs-5"><strong>총합계</strong></div>
+			        <div class="fs-5 text-primary"><strong>${totalPrice}원</strong></div>
+			    </div>
+			    <form action="/pay" method="post" class="mt-3 text-end">
+			        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+			        <c:forEach var="book" items="${bagItems}">
+			            <input type="hidden" name="title" value="${book.title}">
+			            <input type="hidden" name="price" value="${book.price}">
+			            <input type="hidden" name="quantity" value="${book.quantity}">
+			        </c:forEach>
+			        <button type="submit" class="btn btn-success btn-lg">
+			            <i class="fas fa-credit-card"></i> 주문하기 
+			        </button>
+			    </form>
+			</div>
+
             </c:otherwise>
         </c:choose>
     </div>
