@@ -89,6 +89,7 @@ public class PayController {
 	        System.out.println("✔ bagItems 바인딩 성공. size = " + bagItems.size());
 	    }
 	    service.payment(payment, userId, bagItems);
+	    service.deletebag(userId);
 
 	    return "redirect:/paymentComplete";
     }

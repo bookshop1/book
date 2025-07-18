@@ -58,4 +58,7 @@ public class PayService {
         return mapper.getPaymentHistoryByUserId(userId);
     }
 
+	public void deletebag(int userId) {
+		mapper.deleteFromBag(userId);
+	}
 }
