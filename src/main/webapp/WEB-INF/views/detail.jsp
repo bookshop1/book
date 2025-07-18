@@ -59,13 +59,29 @@
 		</div>
 
 		    <!-- 버튼 -->
-		    <div class="btn-group-custom text-center mt-2">
-		        <a href="#" class="btn btn-outline-primary">🛒 장바구니</a>
-		        <a href="#" class="btn btn-danger">💳 구매하기</a>
-		    </div>
+		    <form action="/bag/add" method="post">
+			    <input type="hidden" name="b_id" value="${view.b_id}">
+			    <input type="hidden" name="quantity" value="1">
+			    
+			    <div class="btn-group-custom text-center mt-2">
+			        <button type="submit" class="btn btn-outline-primary">🛒 장바구니</button>
+			    </div>
+			</form>
+			<form action="/pay" method="post">
+			    <input type="hidden" name="b_id" value="${view.b_id}">
+			    <input type="hidden" name="title" value="${view.title}">
+			    <input type="hidden" name="author" value="${view.author}">
+			    <input type="hidden" name="price" value="${view.price}">
+			    <input type="hidden" name="quantity" value="1">
+			    
+			    <div class="btn-group-custom text-center mt-2">
+			        <button type="submit" formaction="/pay" class="btn btn-danger">💳 구매하기</button>
+			    </div>
+			</form>
 		</div>
     </div>
 </div>
-
+ <!-- Footer -->
+  <%@ include file="detail_footer.jsp" %>
 </body>
 </html>

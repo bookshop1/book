@@ -3,7 +3,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8" />
-    <title>회원가입 | BookStore</title>
+    <title>회원가입 | BookShop</title>
     <!-- 구글 폰트 및 아이콘 -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css">
@@ -49,6 +49,7 @@
         display: flex;
         align-items: center;
         margin-bottom: 10px;
+        text-decoration: none; /* 밑줄 제거 */ 
     }
     .logo i {
         font-size: 34px;
@@ -81,7 +82,7 @@
         color: #b0b8c1; font-size: 20px;
     }
     .input-group input {
-        width: 100%; padding: 13px 14px 13px 44px; border: 1.5px solid #d6e0ea;
+        width: 88%; padding: 13px 14px 13px 44px; border: 1.5px solid #d6e0ea;
         border-radius: 8px; font-size: 16px; color: #2d3a4b; background: #f9fbfd;
         outline: none; transition: border-color 0.25s, box-shadow 0.25s; font-family: inherit;
     }
@@ -158,10 +159,10 @@
     <!-- 책장 일러스트 ... -->
     <img class="book-bg" src="/images/bookshelf.svg" alt="bookshelf background" />
     <div class="signup-container">
-        <div class="logo">
+        <a href="/main" class="logo">
             <i class="ri-book-open-line"></i>
-            <span>BookStore</span>
-        </div>
+            <span>BookShop</span>
+        </a>
         <h2>회원가입</h2>
         <form id="signupForm" class="signup-form" action="/join/register" method="post" autocomplete="off" novalidate>
             <div class="input-group">
@@ -200,7 +201,7 @@
         </form>
         <div class="signup-footer">
             이미 회원이신가요?
-            <a href="/login">로그인</a>
+            <a href="/login/loginform">로그인</a>
         </div>
     </div>
 </body>

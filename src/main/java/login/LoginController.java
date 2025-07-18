@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import join.UserVO;
+
 @Controller
 @RequestMapping("/login")
 public class LoginController {
@@ -17,29 +19,45 @@ public class LoginController {
     @Autowired
     private LoginService service;
 
-    // ·Î±×ÀÎ È­¸é ¶ç¿ì±â
+    // ë¡œê·¸ì¸ í¼ í™”ë©´
     @GetMapping("/loginform")
     public String loginForm() {
-        return "loginform"; // login.jsp ¶Ç´Â login.html (ºä ÀÌ¸§)
+        return "loginform"; // /WEB-INF/views/loginform.jsp
     }
+    
 
-    // ·Î±×ÀÎ Ã³¸®
-    @PostMapping("/login")
-    public String loginProcess(@RequestParam("id") String id,
+    @PostMapping
+    public String loginProcess(
+            @RequestParam("username") String username,
             @RequestParam("password") String password,
             Model model,
             HttpSession session) {
 
-    	int result = service.login(id, password);
+        UserVO loginUser = service.getUser(username, password);
 
-    	if (result == 1) {
-			// ·Î±×ÀÎ ¼º°ø ½Ã ¼¼¼Ç ÀúÀå µî Ã³¸® ÈÄ ¸®µğ·ºÆ®
-			session.setAttribute("loginId", id);
-			return "redirect:/home"; // ¸ŞÀÎ ÆäÀÌÁö³ª ´ë½Ãº¸µå·Î
-		} else {
-			// ·Î±×ÀÎ ½ÇÆĞ ½Ã ´Ù½Ã ·Î±×ÀÎ ÆäÀÌÁö·Î, ¿¡·¯ ¸Ş½ÃÁö Àü´Ş
-			model.addAttribute("errorMsg", "¾ÆÀÌµğ ¶Ç´Â ºñ¹Ğ¹øÈ£°¡ Àß¸øµÇ¾ú½À´Ï´Ù.");
-			return "loginform"; // JSP À§Ä¡ (¿¹: /WEB-INF/views/login/loginForm.jsp)
-		}
-	}
+        if (loginUser != null) {
+            // ë¡œê·¸ì¸ ì„±ê³µ ì‹œ ì„¸ì…˜ì— ì‚¬ìš©ì ì •ë³´ ì €ì¥
+            session.setAttribute("loginUser", loginUser);
+            session.setAttribute("userId", loginUser.getU_id());
+            
+        	if("ROLE_ADMIN".equals(loginUser.getRole())) {
+
+            return "redirect:/admin/main"; // ë¡œê·¸ì¸ ì„±ê³µ ì‹œ ì´ë™í•  í˜ì´ì§€
+        	}else
+        		return "redirect:/main";
+        } else {
+            model.addAttribute("errorMsg", "ì•„ì´ë”” ë˜ëŠ” ë¹„ë°€ë²ˆí˜¸ê°€ ì˜ëª»ë˜ì—ˆìŠµë‹ˆë‹¤.");
+            return "loginform"; // ë¡œê·¸ì¸ ì‹¤íŒ¨ ì‹œ ì¬ë¡œê·¸ì¸ í¼
+        }
+    }
+    
+
+ 
+    
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate(); // ëª¨ë“  ì„¸ì…˜ ì •ë³´ ì œê±°
+        return "redirect:/login/loginform";
+    }
+
 }
