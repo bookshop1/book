@@ -99,9 +99,9 @@
   <!-- 5. 결제 버튼 -->
   <div class="text-center mt-4">
   <c:forEach var="item" items="${orderList}" varStatus="status">
-	  <input type="hidden" name="quantity" value="${item.quantity}">
-	  <input type="hidden" name="title" value="${item.title}">
-	  <input type="hidden" name="price" value="${item.total}">
+	  <input type="hidden" name="bagItems[${status.index}].title" value="${item.title}" />
+	  <input type="hidden" name="bagItems[${status.index}].price" value="${item.price}" />
+	  <input type="hidden" name="bagItems[${status.index}].quantity" value="${item.quantity}" />
 	</c:forEach>
     <button type="submit" class="btn btn-primary btn-lg px-5">결제하기</button>
   </div>

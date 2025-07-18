@@ -48,6 +48,10 @@ public class PayService {
 	    paramMap.put("items", bagItems);
 
 	    mapper.insertPayment(paramMap);
+	    
+	    for (BagBook item : bagItems) {
+            mapper.insertPaymentItem(nextPaymentId, userId, item);
+        }
 		
 		
 		

@@ -10,15 +10,30 @@
 
 
 <!-- 결제 및 주문상품을 각각 행으로 저장 -->
-  <insert id="insertPayments" parameterType="map">
-    <foreach collection="items" item="item" separator=";">
-      INSERT INTO payments (
-        payment_item_id, payment_id, u_id, name, num, address, post, detail_address, title, quantity, price
-      )
-      VALUES (
-        payment_item_seq.NEXTVAL, #{paymentId}, #{userId}, #{name}, #{num}, #{address}, #{post}, #{detailAddress}, 
-        #{item.title}, #{item.quantity}, #{item.price}
-      )
-    </foreach>
+  <insert id="insertPayment" parameterType="map">
+    INSERT INTO payments (
+      payment_id, u_id, name, num, address, post, detail_address
+    )
+    VALUES (
+      #{paymentId, jdbcType=INTEGER}, 
+      #{userId, jdbcType=VARCHAR}, 
+      #{name, jdbcType=VARCHAR}, 
+      #{num, jdbcType=VARCHAR}, 
+      #{address, jdbcType=VARCHAR}, 
+      #{post, jdbcType=VARCHAR}, 
+      #{detailAddress, jdbcType=VARCHAR}
+    )
+  </insert>
+
+  <insert id="insertPaymentItem" parameterType="map">
+    INSERT INTO payment_items (
+      payment_item_id, payment_id, title, quantity, price
+    ) VALUES (
+      payment_item_id_seq.nextval, 
+      #{paymentId, jdbcType=INTEGER}, 
+      #{item.title, jdbcType=VARCHAR}, 
+      #{item.quantity, jdbcType=INTEGER}, 
+      #{item.price, jdbcType=INTEGER}
+    )
   </insert>
 </mapper>

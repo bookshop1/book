@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import bag.BagBook;
+import bag.BagBookListWrapper;
 import join.UserVO;
 
 
@@ -73,15 +74,29 @@ public class PayController {
 	}
 	
 	@PostMapping("/paySuccess")
-    public String payment(HttpSession session, @ModelAttribute Payment payment, List<BagBook> bagItems) {
+    public String payment(HttpSession session, 
+    						@ModelAttribute Payment payment, 
+    						@ModelAttribute BagBookListWrapper wrapper) {
 		
 		Integer userId = (Integer) session.getAttribute("userId");
 	    payment.setUserId(userId);  // 세션에서 넣어주기
 
+	    List<BagBook> bagItems = wrapper.getBagItems();
+	    
+	    if (bagItems == null) {
+	        System.out.println("❌ bagItems는 null입니다. 바인딩 실패");
+	    } else {
+	        System.out.println("✔ bagItems 바인딩 성공. size = " + bagItems.size());
+	    }
 	    service.payment(payment, userId, bagItems);
 
 	    return "redirect:/paymentComplete";
     }
+	
+	@GetMapping("/paymentComplete")
+	public String paymentComplete() {
+	    return "paymentComplete";  // paymentComplete.jsp 또는 paymentComplete.html 뷰 이름
+	}
 	
 	
 }

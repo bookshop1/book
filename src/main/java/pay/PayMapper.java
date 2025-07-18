@@ -28,9 +28,7 @@ public interface PayMapper {
 	void insertPaymentItem (
 			@Param("paymentId") int nextPaymentId,
             @Param("userId") int userId,
-            @Param("title") String title,
-            @Param("quantity") int quantity,
-            @Param("price") int price);
+            @Param("item") BagBook item);
 
 }
 
