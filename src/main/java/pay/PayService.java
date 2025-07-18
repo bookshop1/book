@@ -52,10 +52,10 @@ public class PayService {
 	    for (BagBook item : bagItems) {
             mapper.insertPaymentItem(nextPaymentId, userId, item);
         }
-		
-		
-		
-		
 	}
+	
+	public List<Payment> getPaymentHistoryByUserId(int userId) {
+        return mapper.getPaymentHistoryByUserId(userId);
+    }
 
 }

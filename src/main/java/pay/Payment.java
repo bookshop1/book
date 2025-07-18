@@ -1,5 +1,7 @@
 package pay;
 
+import java.util.List;
+
 import lombok.Data;
 import lombok.ToString;
 
@@ -16,4 +18,5 @@ public class Payment {
 	private String title;
 	private int quantity;
 	private int price;
+	private List<PaymentItem> items;
 }

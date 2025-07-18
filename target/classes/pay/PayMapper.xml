@@ -4,6 +4,25 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="pay.PayMapper">
+
+<resultMap id="PaymentWithItemsMap" type="pay.Payment">
+    <id property="paymentId" column="payment_id"/>
+    <result property="userId" column="u_id"/>
+    <result property="name" column="name"/>
+    <result property="num" column="num"/>
+    <result property="address" column="address"/>
+    <result property="post" column="post"/>
+    <result property="detailAddress" column="detail_address"/>
+    
+    <collection property="items" ofType="pay.PaymentItem">
+        <id property="itemId" column="payment_item_id"/>
+        <result property="title" column="title"/>
+        <result property="quantity" column="quantity"/>
+        <result property="price" column="price"/>
+    </collection>
+</resultMap>
+
+
 	<select id="getNextPaymentId" resultType="int">
 	    SELECT payment_id_seq.NEXTVAL FROM dual
 	</select>
@@ -36,4 +55,27 @@
       #{item.price, jdbcType=INTEGER}
     )
   </insert>
+  
+  <select id="getPaymentHistoryByUserId" resultMap="PaymentWithItemsMap">
+    SELECT 
+        p.payment_id,
+        p.u_id,
+        p.name,
+        p.num,
+        p.address,
+        p.post,
+        p.detail_address,
+        i.payment_item_id,
+        i.title,
+        i.quantity,
+        i.price
+    FROM 
+        payments p
+    JOIN 
+        payment_items i ON p.payment_id = i.payment_id
+    WHERE 
+        p.u_id = #{userId}
+    ORDER BY 
+        p.payment_id DESC
+</select>
 </mapper>
