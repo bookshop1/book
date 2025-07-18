@@ -4,11 +4,13 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
-import join.UserVO;
-
 @Mapper
 public interface LoginMapper {
-
-    @Select("SELECT u_id, id, password, address, email, num, role FROM users WHERE id = #{id} AND password = #{password}")
-    UserVO getUser(@Param("id") String id, @Param("password") String password);
+	@Select("SELECT COUNT(*) FROM users WHERE id = #{id} AND password = #{password}")
+	public int login(@Param("id") String id,@Param("password") String password);
+	
+	
+	@Select("SELECT id, password, role FROM users WHERE id = #{id}")
+	MemberVO findById(@Param("id") String id);
+	
 }

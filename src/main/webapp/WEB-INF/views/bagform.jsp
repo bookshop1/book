@@ -1,7 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
-<%@ include file="header.jsp" %>
 <head>
     <title>장바구니</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
@@ -75,6 +74,7 @@
                             <div class="price-cell">${book.price}원</div>
                             <div class="price-cell small text-muted mt-1">합계: ${book.price * book.quantity}원</div>
                             <form action="/bag/bagdelete" method="post" class="mt-2">
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                                 <input type="hidden" name="b_id" value="${book.b_id}"/>
                                 <button type="submit" class="btn btn-outline-danger btn-sm">
                                     <i class="fas fa-trash-alt"></i> 삭제
@@ -84,23 +84,25 @@
                     </div>
                 </c:forEach>
 
-                <!-- 총합 영역 -->
-                <div class="summary-box mt-4">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="fs-5"><strong>총합계</strong></div>
-                        <div class="fs-5 text-primary"><strong>${totalPrice}원</strong></div>
-                    </div>
-                    <form action="/pay" method="post" class="mt-3 text-end">
-                   		<c:forEach var="book" items="${bagItems}">
-		                    <input type="hidden" name="title" value="${book.title}">
-						    <input type="hidden" name="price" value="${book.price}">
-						    <input type="hidden" name="quantity" value="${book.quantity}">
-					    </c:forEach>
-                        <button type="submit" class="btn btn-success btn-lg">
-                            <i class="fas fa-credit-card"></i> 주문하기
-                        </button>
-                    </form>
-                </div>
+			      <!-- 총합 영역 -->
+			<div class="summary-box mt-4">
+			    <div class="d-flex justify-content-between align-items-center">
+			        <div class="fs-5"><strong>총합계</strong></div>
+			        <div class="fs-5 text-primary"><strong>${totalPrice}원</strong></div>
+			    </div>
+			    <form action="/pay" method="post" class="mt-3 text-end">
+			        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+			        <c:forEach var="book" items="${bagItems}">
+			            <input type="hidden" name="title" value="${book.title}">
+			            <input type="hidden" name="price" value="${book.price}">
+			            <input type="hidden" name="quantity" value="${book.quantity}">
+			        </c:forEach>
+			        <button type="submit" class="btn btn-success btn-lg">
+			            <i class="fas fa-credit-card"></i> 주문하기 
+			        </button>
+			    </form>
+			</div>
+
             </c:otherwise>
         </c:choose>
     </div>

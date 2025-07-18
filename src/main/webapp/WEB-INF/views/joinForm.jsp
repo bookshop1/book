@@ -168,6 +168,7 @@
             <div class="input-group">
                 <label for="id">아이디 <span class="required">*</span></label>
                 <i class="ri-user-3-line input-icon"></i>
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                 <input class="form-input" type="text" name="id" id="id" placeholder="아이디를 입력하세요" maxlength="20">
                 <div class="msg" id="msg-id">아이디를 입력해주세요.</div>
                 <div class="subtext">영문/숫자 4~20자</div>

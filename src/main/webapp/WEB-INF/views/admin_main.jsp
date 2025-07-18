@@ -1,18 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="javax.servlet.http.HttpSession" %>
-<%@ page import="javax.servlet.http.HttpServletRequest" %>
-<%@ page import="javax.servlet.http.HttpServletResponse" %>
-<%@ page import="join.UserVO" %>
-<%
-	UserVO loginUser = (UserVO) session.getAttribute("loginUser");
-	String role = (loginUser != null) ? loginUser.getRole() : null;
-
-    if (role == null || !role.equals("ROLE_ADMIN")) {
-        response.sendRedirect(request.getContextPath() + "/main");
-        return;
-    }
-%>
 <!DOCTYPE html>
 <html lang="ko">
 <%@ include file="header.jsp" %>

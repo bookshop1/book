@@ -11,6 +11,7 @@
 <div class="container mt-5">
     <h2>📚 도서 등록</h2>
     <form action="${pageContext.request.contextPath}/admin/add" method="post">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
         <div class="mb-3">
             <label for="num" class="form-label">도서 번호</label>
             <input type="text" class="form-control" id="num" name="num" required>

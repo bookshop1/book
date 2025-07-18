@@ -58,8 +58,9 @@
    			 ${view.info}
 		</div>
 
-		    <!-- 버튼 -->
+		   <!-- 버튼 -->
 		    <form action="/bag/add" method="post">
+		    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 			    <input type="hidden" name="b_id" value="${view.b_id}">
 			    <input type="hidden" name="quantity" value="1">
 			    
