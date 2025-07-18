@@ -12,4 +12,5 @@ public class UserVO {
 	    private String address;
 	    private String email;
 	    private int num;
+	    private String role;
 }

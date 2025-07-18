@@ -182,5 +182,12 @@
 	    <version>5.6.3</version>
 	</dependency>
 	
+	<dependency>
+    <groupId>javax.servlet</groupId>
+    <artifactId>jstl</artifactId>
+    <version>1.2</version> <!-- 또는 1.2 이상 -->
+</dependency>
+	
+	
   </dependencies>
 </project>

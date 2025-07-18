@@ -49,6 +49,7 @@
         display: flex;
         align-items: center;
         margin-bottom: 10px;
+        text-decoration: none; /* 밑줄 제거 */ 
     }
     .logo i {
         font-size: 34px;
@@ -158,10 +159,10 @@
     <!-- 책장 일러스트 ... -->
     <img class="book-bg" src="/images/bookshelf.svg" alt="bookshelf background" />
     <div class="signup-container">
-        <div class="logo">
+        <a href="/main" class="logo">
             <i class="ri-book-open-line"></i>
             <span>BookShop</span>
-        </div>
+        </a>
         <h2>회원가입</h2>
         <form id="signupForm" class="signup-form" action="/join/register" method="post" autocomplete="off" novalidate>
             <div class="input-group">

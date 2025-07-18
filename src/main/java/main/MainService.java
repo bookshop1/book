@@ -15,8 +15,8 @@ public class MainService {
 		return mapper.findAll();
 	}
 
-	public Book findBookById(int num) {
-		return mapper.findBookById(num);
+	public Book findBookById(int id) {
+		return mapper.findBookById(id);
 	}
 
 	public List<Book> search(String keyword) {

@@ -58,11 +58,17 @@
    			 ${view.info}
 		</div>
 
-		    <!-- 버튼 -->
-		    <div class="btn-group-custom text-center mt-2">
-		        <a href="#" class="btn btn-outline-primary">🛒 장바구니</a>
-		        <a href="/pay" class="btn btn-danger">💳 구매하기</a>
-		    </div>
+		   <!-- 버튼 -->
+		    <form action="/bag/add" method="post">
+		    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+			    <input type="hidden" name="b_id" value="${view.b_id}">
+			    <input type="hidden" name="quantity" value="1">
+			    
+			    <div class="btn-group-custom text-center mt-2">
+			        <button type="submit" class="btn btn-outline-primary">🛒 장바구니</button>
+			        <button type="submit" formaction="/pay" class="btn btn-danger">💳 구매하기</button>
+			    </div>
+			</form>
 		</div>
     </div>
 </div>

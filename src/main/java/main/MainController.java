@@ -29,8 +29,8 @@ public class MainController {
 	}
 	
 	@GetMapping("/detail")
-	public String detail(@RequestParam("num") int num, Model model) {
-		Book book = service.findBookById(num);
+	public String detail(@RequestParam("id") int id, Model model) {
+		Book book = service.findBookById(id);
 		
 		model.addAttribute("book", book);
 		return "detail";

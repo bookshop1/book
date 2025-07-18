@@ -63,16 +63,13 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>${book.title}</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
+        <c:forEach var="item" items="${orderList}">
+            <tr>
+                <td>${item.title}</td>
+                <td>${item.qty}</td>
+                <td>${item.total}원</td>
+            </tr>
+        </c:forEach>
       </tbody>
     </table>
   </div>
@@ -90,7 +87,7 @@
             <span>배송비</span><strong></strong>
           </li>
           <li class="list-group-item d-flex justify-content-between">
-            <span>총 결제금액</span><strong class="text-primary fs-5"></strong>
+            <span>총 결제금액</span><strong class="text-primary fs-5">${total}</strong>
           </li>
         </ul>
       </div>
