@@ -21,92 +21,88 @@ import bag.BagBook;
 import bag.BagBookListWrapper;
 import join.UserVO;
 
-
 @Controller
 public class PayController {
-	
-	@Autowired
-	PayService service;
-	
-	@GetMapping("/pay")
-	public String pay(@RequestParam String title,
-			 @RequestParam(required = false, defaultValue = "0") int price,
-			 @RequestParam(required = false, defaultValue = "1") int quantity,
-            Model model) {
+    
+    @Autowired
+    PayService service;
+    
+    @GetMapping("/pay")
+    public String pay(@RequestParam String title,
+                      @RequestParam(required = false, defaultValue = "0") int price,
+                      @RequestParam(required = false, defaultValue = "1") int quantity,
+                      Model model) {
 
-		int total = price * quantity;
-		
-		model.addAttribute("title", title);
-		model.addAttribute("price", price);
-		model.addAttribute("quantity", quantity);
-		model.addAttribute("total", total);
-		
-		return "pay"; // pay.jsp
-	}
-	
-	@PostMapping("/pay")
-	public String payForm(@RequestParam List<String> title,
-            @RequestParam List<Integer> price,
-            @RequestParam List<Integer> quantity,
-            Model model) {
-
-		List<Map<String, Object>> orderList = new ArrayList<>();
-	    int total = 0;
-
-	    
-	    for (int i = 0; i < title.size(); i++) {
-	        int itemTotal = price.get(i) * quantity.get(i);
-	        total += itemTotal;
-
-	        Map<String, Object> item = new HashMap<>();
-	        item.put("title", title.get(i));
-	        item.put("price", price.get(i));
-	        item.put("quantity", quantity.get(i));
-	        item.put("total", itemTotal);
-	        orderList.add(item);
-	        
-	    }
-
-	    model.addAttribute("orderList", orderList);
-	    model.addAttribute("total", total);
-
-	    return "pay"; // pay.jsp
-	}
-	
-	@PostMapping("/paySuccess")
-    public String payment(HttpSession session, 
-    						@ModelAttribute Payment payment, 
-    						@ModelAttribute BagBookListWrapper wrapper) {
-		
-		Integer userId = (Integer) session.getAttribute("userId");
-	    payment.setUserId(userId);  // ÏÑ∏ÏÖòÏóêÏÑú ÎÑ£Ïñ¥Ï£ºÍ∏∞
-
-	    List<BagBook> bagItems = wrapper.getBagItems();
-	    
-	    if (bagItems == null) {
-	        System.out.println("‚ùå bagItemsÎäî nullÏûÖÎãàÎã§. Î∞îÏù∏Îî© Ïã§Ìå®");
-	    } else {
-	        System.out.println("‚úî bagItems Î∞îÏù∏Îî© ÏÑ±Í≥µ. size = " + bagItems.size());
-	    }
-	    service.payment(payment, userId, bagItems);
-
-	    return "redirect:/paymentComplete";
+        int total = price * quantity;
+        
+        model.addAttribute("title", title);
+        model.addAttribute("price", price);
+        model.addAttribute("quantity", quantity);
+        model.addAttribute("total", total);
+        
+        return "pay"; // pay.jsp
     }
-	
-	@GetMapping("/paymentComplete")
-	public String paymentComplete() {
-	    return "paymentComplete";  // paymentComplete.jsp ÎòêÎäî paymentComplete.html Î∑∞ Ïù¥Î¶Ñ
-	}
-	
-	@GetMapping("/paymentHistory")
+    
+    @PostMapping("/pay")
+    public String payForm(@RequestParam List<String> title,
+                          @RequestParam List<Integer> price,
+                          @RequestParam List<Integer> quantity,
+                          Model model) {
+
+        List<Map<String, Object>> orderList = new ArrayList<>();
+        int total = 0;
+
+        for (int i = 0; i < title.size(); i++) {
+            int itemTotal = price.get(i) * quantity.get(i);
+            total += itemTotal;
+
+            Map<String, Object> item = new HashMap<>();
+            item.put("title", title.get(i));
+            item.put("price", price.get(i));
+            item.put("quantity", quantity.get(i));
+            item.put("total", itemTotal);
+            orderList.add(item);
+        }
+
+        model.addAttribute("orderList", orderList);
+        model.addAttribute("total", total);
+
+        return "pay"; // pay.jsp
+    }
+    
+    @PostMapping("/paySuccess")
+    public String payment(HttpSession session, 
+                          @ModelAttribute Payment payment, 
+                          @ModelAttribute BagBookListWrapper wrapper) {
+        
+        Integer userId = (Integer) session.getAttribute("userId");
+        payment.setUserId(userId);  // ººº«ø°º≠ ªÁøÎ¿⁄ ID º≥¡§
+
+        List<BagBook> bagItems = wrapper.getBagItems();
+        
+        if (bagItems == null) {
+            System.out.println(" bagItems¥¬ null¿‘¥œ¥Ÿ. πŸ¿Œµ˘ Ω«∆–");
+        } else {
+            System.out.println("bagItems πŸ¿Œµ˘ º∫∞¯. size = " + bagItems.size());
+        }
+
+        service.payment(payment, userId, bagItems);
+
+        return "redirect:/paymentComplete";
+    }
+    
+    @GetMapping("/paymentComplete")
+    public String paymentComplete() {
+        return "paymentComplete";  // paymentComplete.jsp ∂«¥¬ .html ∫‰
+    }
+    
+    @GetMapping("/paymentHistory")
     public String viewPaymentHistory(HttpSession session, Model model) {
         int userId = (int) session.getAttribute("userId");
 
         List<Payment> paymentList = service.getPaymentHistoryByUserId(userId);
         model.addAttribute("paymentList", paymentList);
 
-        return "paymentHistory"; // ‚Üí /WEB-INF/views/paymentHistory.jsp
+        return "paymentHistory"; // /WEB-INF/views/paymentHistory.jsp
     }
-	
-	
 }

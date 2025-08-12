@@ -1,6 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -54,7 +53,7 @@
             <div class="alert">${errorMsg}</div>
         </c:if>
         <form class="login-form" action="/login" method="post" autocomplete="off">
-    <sec:csrfInput />  <%-- CSRF 토큰 자동 삽입 --%>
+    
 
     <div class="input-group">
         <label for="username">아이디 <span class="required">*</span></label>

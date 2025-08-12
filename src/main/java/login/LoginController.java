@@ -19,13 +19,12 @@ public class LoginController {
     @Autowired
     private LoginService service;
 
-    // ë¡œê·¸ì¸ í¼ í™”ë©´
+    // ·Î±×ÀÎ Æû È­¸é
     @GetMapping("/loginform")
     public String loginForm() {
         return "loginform"; // /WEB-INF/views/loginform.jsp
     }
     
-
     @PostMapping
     public String loginProcess(
             @RequestParam("username") String username,
@@ -36,28 +35,24 @@ public class LoginController {
         UserVO loginUser = service.getUser(username, password);
 
         if (loginUser != null) {
-            // ë¡œê·¸ì¸ ì„±ê³µ ì‹œ ì„¸ì…˜ì— ì‚¬ìš©ì ì •ë³´ ì €ì¥
+            // ·Î±×ÀÎ ¼º°ø ½Ã ¼¼¼Ç¿¡ »ç¿ëÀÚ Á¤º¸ ÀúÀå
             session.setAttribute("loginUser", loginUser);
             session.setAttribute("userId", loginUser.getU_id());
             
-        	if("ROLE_ADMIN".equals(loginUser.getRole())) {
-
-            return "redirect:/admin/main"; // ë¡œê·¸ì¸ ì„±ê³µ ì‹œ ì´ë™í•  í˜ì´ì§€
-        	}else
-        		return "redirect:/main";
+            if ("ROLE_ADMIN".equals(loginUser.getRole())) {
+                return "redirect:/admin/main"; // ·Î±×ÀÎ ¼º°ø ½Ã ÀÌµ¿ÇÒ ÆäÀÌÁö
+            } else {
+                return "redirect:/main";
+            }
         } else {
-            model.addAttribute("errorMsg", "ì•„ì´ë”” ë˜ëŠ” ë¹„ë°€ë²ˆí˜¸ê°€ ì˜ëª»ë˜ì—ˆìŠµë‹ˆë‹¤.");
-            return "loginform"; // ë¡œê·¸ì¸ ì‹¤íŒ¨ ì‹œ ì¬ë¡œê·¸ì¸ í¼
+            model.addAttribute("errorMsg", "¾ÆÀÌµğ ¶Ç´Â ºñ¹Ğ¹øÈ£°¡ Àß¸øµÇ¾ú½À´Ï´Ù.");
+            return "loginform"; // ·Î±×ÀÎ ½ÇÆĞ ½Ã ´Ù½Ã ·Î±×ÀÎ ÆûÀ¸·Î
         }
     }
-    
 
- 
-    
     @GetMapping("/logout")
     public String logout(HttpSession session) {
-        session.invalidate(); // ëª¨ë“  ì„¸ì…˜ ì •ë³´ ì œê±°
+        session.invalidate(); // ¸ğµç ¼¼¼Ç Á¤º¸ Á¦°Å
         return "redirect:/login/loginform";
     }
-
 }
