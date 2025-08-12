@@ -98,5 +98,15 @@ public class PayController {
 	    return "paymentComplete";  // paymentComplete.jsp 또는 paymentComplete.html 뷰 이름
 	}
 	
+	@GetMapping("/paymentHistory")
+    public String viewPaymentHistory(HttpSession session, Model model) {
+        int userId = (int) session.getAttribute("userId");
+
+        List<Payment> paymentList = service.getPaymentHistoryByUserId(userId);
+        model.addAttribute("paymentList", paymentList);
+
+        return "paymentHistory"; // → /WEB-INF/views/paymentHistory.jsp
+    }
+	
 	
 }

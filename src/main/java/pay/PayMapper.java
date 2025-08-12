@@ -29,6 +29,8 @@ public interface PayMapper {
 			@Param("paymentId") int nextPaymentId,
             @Param("userId") int userId,
             @Param("item") BagBook item);
+	
+	List<Payment> getPaymentHistoryByUserId(@Param("userId") int userId);
 
 }
 
