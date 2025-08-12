@@ -19,16 +19,8 @@
       <i class="bi bi-heart"></i> <!-- Bootstrap Icons 필요 -->
     </button>
 
-    <button type="button" class="btn btn-outline-secondary">
-      선물하기
-    </button>
-
     <button type="button" class="btn btn-outline-primary">
       장바구니
-    </button>
-
-    <button type="button" class="btn btn-secondary">
-      바로드림
     </button>
 
     <button type="button" class="btn btn-primary">

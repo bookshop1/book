@@ -1,5 +1,7 @@
 package view;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
@@ -15,15 +17,20 @@ public class ViewController {
 	@Autowired
 	ViewService service;
 	
+	@Autowired
+	CommentService commentService;
+	
 	
 	
 	@GetMapping("/detail")
 	public String detail(@RequestParam("id") int id, Model model) {
 		View view = service.getDetail(id);
+		List<Comment> comments = commentService.getCommentsByBookId(id);
+		
 		model.addAttribute("view", view);
+		model.addAttribute("comments", comments);
 		
 		return "detail";
-		//접근 url http://localhost:8888/view/detail?id=3 이런식으로 하시면 됩니다.
 	}
 	
 	
