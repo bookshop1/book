@@ -39,6 +39,7 @@
                         <a href="/login/logout" class="btn btn-sm btn-outline-danger me-2">로그아웃</a>
                         <a href="/bag/bagform" class="btn btn-sm btn-outline-primary">🛒 장바구니</a>
                         <a href="/paymentHistory" class="btn btn-sm btn-outline-primary">결제내역</a>
+                        <a href="/chart" class="btn btn-sm btn-outline-primary">차트</a>
                     </c:when>
 
                   

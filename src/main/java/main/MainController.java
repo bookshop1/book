@@ -35,5 +35,7 @@ public class MainController {
 		model.addAttribute("book", book);
 		return "detail";
 	}
+	
+	
 
 }

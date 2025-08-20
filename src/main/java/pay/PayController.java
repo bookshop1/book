@@ -109,5 +109,10 @@ public class PayController {
         return "paymentHistory"; // → /WEB-INF/views/paymentHistory.jsp
     }
 	
+	@GetMapping("/chart")
+    public String chart() {
+        return "chart";
+    }
+	
 	
 }
