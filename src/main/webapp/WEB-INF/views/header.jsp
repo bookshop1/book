@@ -52,4 +52,32 @@
             </div>
         </div>
     </div>
+    <!-- 하단 메뉴 -->
+    <div class="container mt-2">
+        <ul class="nav">
+            <!-- 카테고리 드롭다운 -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle fw-bold" href="#" id="categoryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    카테고리
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="categoryDropdown">
+                    <li><a class="dropdown-item" href="/main?category=essay">에세이</a></li>
+    <li><a class="dropdown-item" href="/main?category=novel">소설</a></li>
+    <li><a class="dropdown-item" href="/main?category=humanities">인문</a></li>
+    <li><a class="dropdown-item" href="/main?category=health">건강</a></li>
+    <li><a class="dropdown-item" href="/main?category=economy">경제</a></li>
+                </ul>
+            </li>
+            <!-- 베스트셀러 -->
+            <li class="nav-item">
+                <a class="nav-link fw-bold" href="/bestseller">베스트셀러</a>
+            </li>
+            <!-- 통계 -->
+            <li class="nav-item">
+                <a class="nav-link fw-bold" href="/statistics">통계</a>
+            </li>
+        </ul>
+    </div>
 </div>
+
+

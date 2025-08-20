@@ -22,5 +22,9 @@ public class MainService {
 	public List<Book> search(String keyword) {
 		return mapper.search(keyword);
 	}
+	
+	public List<Book> findByCategory(String category) {
+        return mapper.findByCategory(category);
+    }
 
 }

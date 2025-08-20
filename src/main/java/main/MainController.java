@@ -17,16 +17,27 @@ public class MainController {
 	MainService service;
 	
 	@GetMapping
-	public String list(@RequestParam(value = "keyword", required = false) String keyword, Model model) {
-	    List<Book> books;
-	    if (keyword != null && !keyword.trim().isEmpty()) {
-	        books = service.search(keyword);
-	    } else {
-	        books = service.findAll();
-	    }
-	    model.addAttribute("books", books);
-	    return "main"; // main.jsp
-	}
+    public String list(@RequestParam(value = "keyword", required = false) String keyword,
+                       @RequestParam(value = "category", required = false) String category,
+                       Model model) {
+        
+        List<Book> books;
+        
+        if (category != null && !category.trim().isEmpty()) {
+            // 카테고리별 조회
+            books = service.findByCategory(category);
+            model.addAttribute("currentCategory", category);
+        } else if (keyword != null && !keyword.trim().isEmpty()) {
+            // 검색어 조회
+            books = service.search(keyword);
+        } else {
+            // 전체 조회
+            books = service.findAll();
+        }
+        
+        model.addAttribute("books", books);
+        return "main"; // main.jsp
+    }
 	
 	@GetMapping("/detail")
 	public String detail(@RequestParam("id") int id, Model model) {
