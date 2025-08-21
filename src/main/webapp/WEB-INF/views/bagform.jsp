@@ -1,7 +1,7 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<html>
 <%@ include file="header.jsp" %>
+<html>
 <head>
     <title>장바구니</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
@@ -108,6 +108,5 @@
         </c:choose>
     </div>
 </div>
-<%@ include file="footer.jsp" %>
 </body>
 </html>

@@ -21,88 +21,93 @@ import bag.BagBook;
 import bag.BagBookListWrapper;
 import join.UserVO;
 
+
 @Controller
 public class PayController {
-    
-    @Autowired
-    PayService service;
-    
-    @GetMapping("/pay")
-    public String pay(@RequestParam String title,
-                      @RequestParam(required = false, defaultValue = "0") int price,
-                      @RequestParam(required = false, defaultValue = "1") int quantity,
-                      Model model) {
+	
+	@Autowired
+	PayService service;
+	
+	@GetMapping("/pay")
+	public String pay(@RequestParam String title,
+			 @RequestParam(required = false, defaultValue = "0") int price,
+			 @RequestParam(required = false, defaultValue = "1") int quantity,
+            Model model) {
 
-        int total = price * quantity;
-        
-        model.addAttribute("title", title);
-        model.addAttribute("price", price);
-        model.addAttribute("quantity", quantity);
-        model.addAttribute("total", total);
-        
-        return "pay"; // pay.jsp
-    }
-    
-    @PostMapping("/pay")
-    public String payForm(@RequestParam List<String> title,
-                          @RequestParam List<Integer> price,
-                          @RequestParam List<Integer> quantity,
-                          Model model) {
+		int total = price * quantity;
+		
+		model.addAttribute("title", title);
+		model.addAttribute("price", price);
+		model.addAttribute("quantity", quantity);
+		model.addAttribute("total", total);
+		
+		return "pay"; // pay.jsp
+	}
+	
+	@PostMapping("/pay")
+	public String payForm(@RequestParam List<String> title,
+            @RequestParam List<Integer> price,
+            @RequestParam List<Integer> quantity,
+            Model model) {
 
-        List<Map<String, Object>> orderList = new ArrayList<>();
-        int total = 0;
+		List<Map<String, Object>> orderList = new ArrayList<>();
+	    int total = 0;
 
-        for (int i = 0; i < title.size(); i++) {
-            int itemTotal = price.get(i) * quantity.get(i);
-            total += itemTotal;
+	    
+	    for (int i = 0; i < title.size(); i++) {
+	        int itemTotal = price.get(i) * quantity.get(i);
+	        total += itemTotal;
 
-            Map<String, Object> item = new HashMap<>();
-            item.put("title", title.get(i));
-            item.put("price", price.get(i));
-            item.put("quantity", quantity.get(i));
-            item.put("total", itemTotal);
-            orderList.add(item);
-        }
+	        Map<String, Object> item = new HashMap<>();
+	        item.put("title", title.get(i));
+	        item.put("price", price.get(i));
+	        item.put("quantity", quantity.get(i));
+	        item.put("total", itemTotal);
+	        orderList.add(item);
+	        
+	    }
 
-        model.addAttribute("orderList", orderList);
-        model.addAttribute("total", total);
+	    model.addAttribute("orderList", orderList);
+	    model.addAttribute("total", total);
 
-        return "pay"; // pay.jsp
-    }
-    
-    @PostMapping("/paySuccess")
+	    return "pay"; // pay.jsp
+	}
+	
+	@PostMapping("/paySuccess")
     public String payment(HttpSession session, 
-                          @ModelAttribute Payment payment, 
-                          @ModelAttribute BagBookListWrapper wrapper) {
-        
-        Integer userId = (Integer) session.getAttribute("userId");
-        payment.setUserId(userId);  // 세션에서 사용자 ID 설정
+    						@ModelAttribute Payment payment, 
+    						@ModelAttribute BagBookListWrapper wrapper) {
+		
+		Integer userId = (Integer) session.getAttribute("userId");
+	    payment.setUserId(userId);  // 세션에서 넣어주기
 
-        List<BagBook> bagItems = wrapper.getBagItems();
-        
-        if (bagItems == null) {
-            System.out.println(" bagItems는 null입니다. 바인딩 실패");
-        } else {
-            System.out.println("bagItems 바인딩 성공. size = " + bagItems.size());
-        }
+	    List<BagBook> bagItems = wrapper.getBagItems();
+	    
+	    if (bagItems == null) {
+	        System.out.println(" bagItems는 null입니다. 바인딩 실패");
+	    } else {
+	        System.out.println(" bagItems 바인딩 성공. size = " + bagItems.size());
+	    }
+	    service.payment(payment, userId, bagItems);
+	    service.deletebag(userId);
 
-        service.payment(payment, userId, bagItems);
-
-        return "redirect:/paymentComplete";
+	    return "redirect:/paymentComplete";
     }
-    
-    @GetMapping("/paymentComplete")
-    public String paymentComplete() {
-        return "paymentComplete";  // paymentComplete.jsp 또는 .html 뷰
-    }
-    
-    @GetMapping("/paymentHistory")
+	
+	@GetMapping("/paymentComplete")
+	public String paymentComplete() {
+	    return "paymentComplete";  // paymentComplete.jsp 또는 paymentComplete.html 뷰 이름
+	}
+	
+	@GetMapping("/paymentHistory")
     public String viewPaymentHistory(HttpSession session, Model model) {
         int userId = (int) session.getAttribute("userId");
 
         List<Payment> paymentList = service.getPaymentHistoryByUserId(userId);
         model.addAttribute("paymentList", paymentList);
 
-        return "paymentHistory"; // /WEB-INF/views/paymentHistory.jsp
+        return "paymentHistory"; // → /WEB-INF/views/paymentHistory.jsp
     }
+	
+	
 }

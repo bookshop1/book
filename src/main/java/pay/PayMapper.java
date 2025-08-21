@@ -3,6 +3,7 @@ package pay;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -31,7 +32,9 @@ public interface PayMapper {
             @Param("item") BagBook item);
 	
 	List<Payment> getPaymentHistoryByUserId(@Param("userId") int userId);
-
+	
+	@Delete("DELETE FROM bag WHERE u_id = #{u_id}")
+	void deleteFromBag(@Param("u_id") int userId);
 }
 
 

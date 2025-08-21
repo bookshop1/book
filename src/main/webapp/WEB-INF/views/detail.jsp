@@ -30,7 +30,7 @@
 
     <!-- 뒤로가기 버튼 -->
     <div class="mb-3">
-        <a href="javascript:history.back()" class="btn btn-secondary">&larr; 뒤로가기</a>
+        <a href="/main" class="btn btn-secondary">&larr; 뒤로가기</a>
     </div>
 
     <!-- 책 제목 -->
@@ -82,7 +82,39 @@
 		</div>
     </div>
 </div>
+
  <!-- Footer -->
-  <%@ include file="detail_footer.jsp" %>
+<%@ include file="detail_footer.jsp" %>
+  
+<hr class="my-4">
+
+<!-- 댓글 입력 -->
+<div class="mt-4">
+    <h5>댓글 작성</h5>
+    <form action="/comments/add" method="post">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+        <input type="hidden" name="b_id" value="${view.b_id}">
+
+        <div class="mb-2">
+            <input type="text" name="writer" class="form-control" placeholder="작성자" required>
+        </div>
+        <div class="mb-2">
+            <textarea name="content" class="form-control" rows="3" placeholder="댓글 내용을 입력하세요" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">댓글 등록</button>
+    </form>
+</div>
+
+<!-- 댓글 목록 -->
+<div class="mt-4">
+    <h5>댓글 목록</h5>
+    <c:forEach var="c" items="${comments}">
+        <div class="border p-2 mb-2 rounded">
+            <p class="mb-1"><strong>${c.writer}</strong> <small class="text-muted">(${c.regDate})</small></p>
+            <p class="mb-0">${c.content}</p>
+        </div>
+    </c:forEach>
+</div>
+  
 </body>
 </html>
