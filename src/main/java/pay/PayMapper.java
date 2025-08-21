@@ -33,9 +33,14 @@ public interface PayMapper {
 	
 	List<Payment> getPaymentHistoryByUserId(@Param("userId") int userId);
 	
+	@Select("SELECT b_id, title, pic, price, 0 AS quantity FROM book WHERE b_id = #{b_id}")
+    BagBook findBookById(@Param("b_id") int b_id);
+	
 	@Delete("DELETE FROM bag WHERE u_id = #{u_id}")
 	void deleteFromBag(@Param("u_id") int userId);
-}
 
+	@Select("Select u_id From users where users.id = #{username}")
+	Integer findUIdByUsername(String username);
+}
 
 

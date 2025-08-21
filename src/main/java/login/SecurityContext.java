@@ -35,26 +35,26 @@ public class SecurityContext {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests(authz -> authz
-                // °ü¸®ÀÚ(ADMIN)¸¸ Á¢±Ù °¡´ÉÇÑ URL
+                // ê´€ë¦¬ìž(ADMIN)ë§Œ ì ‘ê·¼ ê°€ëŠ¥í•œ URL
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/chart/**").hasRole("ADMIN")
                 
-                // ·Î±×ÀÎÇÑ »ç¿ëÀÚ¸¸ Á¢±Ù °¡´ÉÇÑ URL
+                // ë¡œê·¸ì¸í•œ ì‚¬ìš©ìžë§Œ ì ‘ê·¼ ê°€ëŠ¥í•œ URL
                 .antMatchers("/paymentHistory/**").authenticated()
-                .antMatchers("/pay/**").authenticated()
+                .antMatchers("/pay/**").permitAll()
                 
-                // ´©±¸³ª Á¢±Ù °¡´ÉÇÑ URL (Á¤Àû ¸®¼Ò½º Ãß°¡)
+                // ëˆ„êµ¬ë‚˜ ì ‘ê·¼ ê°€ëŠ¥í•œ URL (ì •ì  ë¦¬ì†ŒìŠ¤ ì¶”ê°€)
                 .antMatchers("/", "/main/**").permitAll()
                 .antMatchers("/login/**").permitAll()
                 .antMatchers("/join/**").permitAll()
                 .antMatchers("/view/**").permitAll()
-                .antMatchers("/bag/**").authenticated()
+                .antMatchers("/bag/**").permitAll()
                 .antMatchers("/images/**", "/css/**", "/js/**").permitAll()
                 
-                // À§¿¡¼­ ¼³Á¤ÇÑ URL ¿ÜÀÇ ¸ðµç ¿äÃ»Àº ÀÎÁõ(·Î±×ÀÎ) ÇÊ¿ä
+                // ìœ„ì—ì„œ ì„¤ì •í•œ URL ì™¸ì˜ ëª¨ë“  ìš”ì²­ì€ ì¸ì¦(ë¡œê·¸ì¸) í•„ìš”
                 .anyRequest().authenticated()
             )
-            // Æû ·Î±×ÀÎ ¼³Á¤
+            // í¼ ë¡œê·¸ì¸ ì„¤ì •
             .formLogin(form -> form
                 .loginPage("/login/loginform")
                 .loginProcessingUrl("/login")
@@ -63,14 +63,14 @@ public class SecurityContext {
                 .usernameParameter("username")
                 .passwordParameter("password")
             )
-            // ·Î±×¾Æ¿ô ¼³Á¤
+            // ë¡œê·¸ì•„ì›ƒ ì„¤ì •
             .logout(logout -> logout
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/")
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID")
             )
-            // ¿¹¿Ü Ã³¸® ¼³Á¤
+            // ì˜ˆì™¸ ì²˜ë¦¬ ì„¤ì •
             .exceptionHandling(ex -> ex
                 .accessDeniedHandler(deniedHandler)
             );

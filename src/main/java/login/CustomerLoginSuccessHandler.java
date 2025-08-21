@@ -21,28 +21,35 @@ public class CustomerLoginSuccessHandler implements AuthenticationSuccessHandler
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
-                                          HttpServletResponse response,
-                                          Authentication authentication)
-                                          throws IOException, ServletException {
+                                        HttpServletResponse response,
+                                        Authentication authentication)
+                                        throws IOException, ServletException {
         
-        // 1. ·Î±×ÀÎÇÑ »ç¿ëÀÚÀÇ ¾ÆÀÌµğ(String)¸¦ °¡Á®¿É´Ï´Ù.
+        // 1. ë¡œê·¸ì¸í•œ ì‚¬ìš©ìì˜ ì•„ì´ë””(String)ë¥¼ ê°€ì ¸ì˜µë‹ˆë‹¤.
         String username = authentication.getName();
         
-        // 2. ¾ÆÀÌµğ¸¦ ÀÌ¿ëÇØ DB¿¡¼­ ÀüÃ¼ »ç¿ëÀÚ Á¤º¸(UserVO)¸¦ ´Ù½Ã Á¶È¸ÇÕ´Ï´Ù.
+        // 2. ì•„ì´ë””ë¥¼ ì´ìš©í•´ DBì—ì„œ ì „ì²´ ì‚¬ìš©ì ì •ë³´(UserVO)ë¥¼ ë‹¤ì‹œ ì¡°íšŒí•©ë‹ˆë‹¤.
         UserVO user = loginMapper.findById(username);
 
-        // 3. »õ·Î¿î ¼¼¼ÇÀ» °¡Á®¿Í ÇÊ¿äÇÑ Á¤º¸¸¦ ÀúÀåÇÕ´Ï´Ù.
-        // UserVO Å¬·¡½º¿¡ getU_id(), getId(), getRole() ¸Ş¼Òµå°¡ ÀÖ¾î¾ß ÇÕ´Ï´Ù.
+        // 3. ìƒˆë¡œìš´ ì„¸ì…˜ì„ ê°€ì ¸ì™€ í•„ìš”í•œ ì •ë³´ë¥¼ ì €ì¥í•©ë‹ˆë‹¤.
         HttpSession session = request.getSession();
-        session.setAttribute("userId", user.getU_id());       // Integer Å¸ÀÔÀÇ È¸¿ø ¹øÈ£
-        session.setAttribute("loggedInUser", user.getId());   // String Å¸ÀÔÀÇ ¾ÆÀÌµğ
-        
+        session.setAttribute("userId", user.getU_id());       // íšŒì› ë²ˆí˜¸
+        session.setAttribute("loggedInUser", user.getId());   // ì•„ì´ë””
         String role = user.getRole().replace("ROLE_", "");
-        session.setAttribute("userRole", role);   // "USER" ¶Ç´Â "ADMIN"
+        session.setAttribute("userRole", role);   // "USER" ë˜ëŠ” "ADMIN"
 
-        System.out.println("·Î±×ÀÎ ¼º°ø - È¸¿ø¹øÈ£: " + user.getU_id() + ", ¾ÆÀÌµğ: " + user.getId() + ", ¿ªÇÒ: " + role);
+        System.out.println("ë¡œê·¸ì¸ ì„±ê³µ - íšŒì›ë²ˆí˜¸: " + user.getU_id() 
+                         + ", ì•„ì´ë””: " + user.getId() 
+                         + ", ì—­í• : " + role);
 
-        // 4. ±ÇÇÑ¿¡ µû¶ó ¸®´ÙÀÌ·ºÆ® (Context Path '/book' Æ÷ÇÔ)
+        // 4. ê²ŒìŠ¤íŠ¸ ì¹´íŠ¸ ì²˜ë¦¬
+        Object guestCart = session.getAttribute("guestCart");
+        if (guestCart != null) {
+            response.sendRedirect(request.getContextPath() + "/bag/login-success");
+            return;
+        }
+
+        // 5. ê¶Œí•œì— ë”°ë¼ ë¦¬ë‹¤ì´ë ‰íŠ¸
         if ("ADMIN".equals(role)) {
             response.sendRedirect(request.getContextPath() + "/admin/main");
         } else {

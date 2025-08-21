@@ -17,15 +17,15 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // LoginMapper¸¦ ÅëÇØ id·Î UserVO °´Ã¼¸¦ Á¶È¸ÇÕ´Ï´Ù.
+        // LoginMapperë¥¼ í†µí•´ idë¡œ UserVO ê°ì²´ë¥¼ ì¡°íšŒí•©ë‹ˆë‹¤.
         UserVO user = loginMapper.findById(username);
         
         if (user == null) {
-            throw new UsernameNotFoundException("»ç¿ëÀÚ¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù: " + username);
+            throw new UsernameNotFoundException("ì‚¬ìš©ìë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤: " + username);
         }
         
-        // UserVO °´Ã¼ÀÇ Á¤º¸·Î Spring SecurityÀÇ UserDetails °´Ã¼¸¦ »ı¼ºÇÏ¿© ¹İÈ¯ÇÕ´Ï´Ù.
-        // UserVO Å¬·¡½º¿¡ getPassword(), getRole() µîÀÇ ¸Ş¼Òµå°¡ ÀÖ´Ù°í °¡Á¤ÇÕ´Ï´Ù.
+        // UserVO ê°ì²´ì˜ ì •ë³´ë¡œ Spring Securityì˜ UserDetails ê°ì²´ë¥¼ ìƒì„±í•˜ì—¬ ë°˜í™˜í•©ë‹ˆë‹¤.
+        // UserVO í´ë˜ìŠ¤ì— getPassword(), getRole() ë“±ì˜ ë©”ì†Œë“œê°€ ìˆë‹¤ê³  ê°€ì •í•©ë‹ˆë‹¤.
         return User.builder()
                 .username(user.getId())
                 .password(user.getPassword())

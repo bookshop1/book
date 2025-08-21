@@ -8,6 +8,8 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,75 +19,74 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import bag.BagBook;
 import bag.BagBookListWrapper;
-import join.JoinService; // 1. JoinService (¶Ç´Â UserService) import
-import join.UserVO;     // 1. UserVO import
 
 @Controller
 public class PayController {
     
     @Autowired
-    private PayService service;
-    
-    @Autowired
-    private JoinService joinService; // 2. JoinService (¶Ç´Â UserService) ÁÖÀÔ
-    
-    // "¹Ù·Î ±¸¸Å" ½Ã °áÁ¦ ÆäÀÌÁö
-    @GetMapping("/pay")
-    public String pay(@RequestParam String title,
-                      @RequestParam(required = false, defaultValue = "0") int price,
-                      @RequestParam(required = false, defaultValue = "1") int quantity,
-                      Model model, HttpSession session) { // 3. HttpSession ÆÄ¶ó¹ÌÅÍ Ãß°¡
+    PayService service;
 
-        // 4. ¼¼¼Ç¿¡¼­ »ç¿ëÀÚ Á¤º¸¸¦ °¡Á®¿Í ¸ğµ¨¿¡ Ãß°¡ÇÏ´Â ·ÎÁ÷
-        Integer userId = (Integer) session.getAttribute("userId");
-        if (userId == null) {
-            return "redirect:/login/loginform";
+    /** âœ… í˜„ì¬ ë¡œê·¸ì¸í•œ userId ê°€ì ¸ì˜¤ê¸° */
+    private Integer getLoginUserId() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (auth == null || auth.getPrincipal().equals("anonymousUser")) {
+            return null;
         }
-        UserVO loginUser = joinService.findUserById(userId); // DB¿¡¼­ »ç¿ëÀÚ Á¤º¸ Á¶È¸
-        model.addAttribute("loginUser", loginUser);
 
-        // (±âÁ¸ ·ÎÁ÷) ¹Ù·Î ±¸¸Å »óÇ° Á¤º¸¸¦ List<Map> ÇüÅÂ·Î ¸¸µé¾î JSP¿Í ÅëÀÏ
-        List<Map<String, Object>> orderList = new ArrayList<>();
-        Map<String, Object> item = new HashMap<>();
-        item.put("title", title);
-        item.put("price", price);
-        item.put("quantity", quantity);
-        item.put("total", price * quantity);
-        orderList.add(item);
-        
-        model.addAttribute("orderList", orderList);
-        model.addAttribute("total", price * quantity);
-        
-        return "pay"; // pay.jsp
+        // ë¡œê·¸ì¸í•œ username (users.id ì»¬ëŸ¼ ê°’)
+        String username = auth.getName();
+
+        // usernameìœ¼ë¡œ DB ì¡°íšŒí•´ì„œ u_idë§Œ êº¼ëƒ„
+        Integer uId = service.findUIdByUsername(username); 
+        return uId;
     }
-    
-    // "Àå¹Ù±¸´Ï¿¡¼­ °áÁ¦" ½Ã °áÁ¦ ÆäÀÌÁö
+
+    /** ì¥ë°”êµ¬ë‹ˆ â†’ ê²°ì œ í˜ì´ì§€ */
     @PostMapping("/pay")
-    public String payForm(@RequestParam List<String> title,
-                          @RequestParam List<Integer> price,
-                          @RequestParam List<Integer> quantity,
-                          Model model, HttpSession session) { // 5. HttpSession ÆÄ¶ó¹ÌÅÍ Ãß°¡
+    public String payForm(@RequestParam(name="b_id") List<Integer> bIds,
+                          @RequestParam(name="quantity") List<Integer> quantities,
+                          HttpSession session,
+                          Model model) {
 
-        // 6. ¼¼¼Ç¿¡¼­ »ç¿ëÀÚ Á¤º¸¸¦ °¡Á®¿Í ¸ğµ¨¿¡ Ãß°¡ÇÏ´Â ·ÎÁ÷
-        Integer userId = (Integer) session.getAttribute("userId");
-        if (userId == null) {
-            return "redirect:/login/loginform";
+        Integer u_id = getLoginUserId(); // ë¡œê·¸ì¸ ìœ ì € ID í™•ì¸
+
+        // 1ï¸âƒ£ ë¹„ë¡œê·¸ì¸ ì²˜ë¦¬
+        if (u_id == null) {
+            List<Map<String, Integer>> guestCartForPay = new ArrayList<>();
+            for (int i = 0; i < bIds.size(); i++) {
+                Map<String, Integer> item = new HashMap<>();
+                item.put("b_id", bIds.get(i));
+                item.put("quantity", quantities.get(i));
+                guestCartForPay.add(item);
+            }
+            session.setAttribute("guestCartForPay", guestCartForPay);
+
+            return "redirect:/login/loginform"; // ë¡œê·¸ì¸ í˜ì´ì§€ë¡œ
         }
-        UserVO loginUser = joinService.findUserById(userId); // DB¿¡¼­ »ç¿ëÀÚ Á¤º¸ Á¶È¸
-        model.addAttribute("loginUser", loginUser);
 
-        // (±âÁ¸ ·ÎÁ÷) Àå¹Ù±¸´Ï »óÇ° ¸ñ·Ï Ã³¸®
+        // 2ï¸âƒ£ ë¡œê·¸ì¸í–ˆì§€ë§Œ ì¥ë°”êµ¬ë‹ˆ ë¹„ì–´ ìˆëŠ” ê²½ìš°
+        if (bIds == null || bIds.isEmpty()) {
+            // ì•Œë¦¼ í˜ì´ì§€ë¡œ redirectí•˜ê±°ë‚˜ ì—ëŸ¬ í˜ì´ì§€
+            model.addAttribute("errorMsg", "ì¥ë°”êµ¬ë‹ˆê°€ ë¹„ì–´ ìˆìŠµë‹ˆë‹¤.");
+            return "redirect:/main"; // cartEmpty.jsp ê°™ì€ í˜ì´ì§€ ìƒì„±
+        }
+
+        // 3ï¸âƒ£ ë¡œê·¸ì¸ & ì¥ë°”êµ¬ë‹ˆ ìˆìŒ â†’ ì£¼ë¬¸ ì²˜ë¦¬
         List<Map<String, Object>> orderList = new ArrayList<>();
         int total = 0;
 
-        for (int i = 0; i < title.size(); i++) {
-            int itemTotal = price.get(i) * quantity.get(i);
+        for (int i = 0; i < bIds.size(); i++) {
+            BagBook book = service.getBookById(bIds.get(i));
+            int qty = quantities.get(i);
+            int itemTotal = book.getPrice() * qty;
             total += itemTotal;
 
             Map<String, Object> item = new HashMap<>();
-            item.put("title", title.get(i));
-            item.put("price", price.get(i));
-            item.put("quantity", quantity.get(i));
+            item.put("b_id", book.getB_id());
+            item.put("title", book.getTitle());
+            item.put("price", book.getPrice());
+            item.put("quantity", qty);
             item.put("total", itemTotal);
             orderList.add(item);
         }
@@ -95,33 +96,35 @@ public class PayController {
 
         return "pay"; // pay.jsp
     }
-    
-    // (Âü°í) ³ª¸ÓÁö ¸Ş¼Òµå´Â ¼öÁ¤ÇÒ ÇÊ¿ä ¾ø½À´Ï´Ù.
-    
+
+    /** ê²°ì œ ì„±ê³µ */
     @PostMapping("/paySuccess")
-    public String payment(HttpSession session,    
-                          @ModelAttribute Payment payment,    
+    public String payment(@ModelAttribute Payment payment,
                           @ModelAttribute BagBookListWrapper wrapper) {
         
-        Integer userId = (Integer) session.getAttribute("userId");
-        payment.setUserId(userId); 
+        Integer userId = getLoginUserId();
+        payment.setUserId(userId);
 
         List<BagBook> bagItems = wrapper.getBagItems();
         
         service.payment(payment, userId, bagItems);
-        service.deletebag(userId);
+
+        // âœ… DB ì¥ë°”êµ¬ë‹ˆ ë¹„ìš°ê¸°
+        if (userId != null) {
+            service.deleteBag(userId);
+        }
 
         return "redirect:/paymentComplete";
     }
-    
+
     @GetMapping("/paymentComplete")
     public String paymentComplete() {
         return "paymentComplete";
     }
-    
+
     @GetMapping("/paymentHistory")
-    public String viewPaymentHistory(HttpSession session, Model model) {
-        int userId = (int) session.getAttribute("userId");
+    public String viewPaymentHistory(Model model) {
+        Integer userId = getLoginUserId();
 
         List<Payment> paymentList = service.getPaymentHistoryByUserId(userId);
         model.addAttribute("paymentList", paymentList);
