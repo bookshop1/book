@@ -66,7 +66,7 @@
             <c:otherwise>
                 <c:forEach var="book" items="${bagItems}">
                     <div class="cart-item d-flex align-items-start">
-                        <img src="/images/book/${book.pic}" alt="책 이미지" class="cart-img">
+                        <img src="${book.pic}" alt="책 이미지" class="cart-img">
                         <div class="cart-info">
                             <div class="cart-title">${book.title}</div>
                             <div class="text-muted">수량: ${book.quantity}</div>

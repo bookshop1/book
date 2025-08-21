@@ -76,12 +76,7 @@
                     <li><a class="dropdown-item" href="/main?category=economy">경제</a></li>
                 </ul>
             </li>
-            <li class="nav-item">
-                <a class="nav-link fw-bold" href="/bestseller">베스트셀러</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link fw-bold" href="/statistics">통계</a>
-            </li>
+            
         </ul>
     </div>
 </div>
