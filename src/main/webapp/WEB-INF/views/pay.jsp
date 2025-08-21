@@ -21,6 +21,7 @@
 </head>
 <body>
 <form action="/paySuccess" method="post">
+<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 <div class="container my-5">
   <h2 class="mb-4">결제 페이지</h2>
 

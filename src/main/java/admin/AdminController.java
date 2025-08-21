@@ -52,7 +52,7 @@ public class AdminController {
 	}
 	
 	//ªË¡¶
-	@GetMapping("/delete/{b_id}")
+	@PostMapping("/delete/{b_id}")
 	public String delete(@PathVariable int b_id) {
 	    service.deleteBook(b_id);
 	    return "redirect:/admin/main";

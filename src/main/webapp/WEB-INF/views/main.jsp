@@ -51,7 +51,7 @@
          
             <c:if test="${not empty book.pic}">
               <a href="/view/detail?id=${book.b_id}">
-                <img src="/images/book/${book.pic}" class="card-img-top" alt="책 표지" />
+                <img src="${book.pic}" class="card-img-top" alt="책 표지" />
               </a>
             </c:if>
 

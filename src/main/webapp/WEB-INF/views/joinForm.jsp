@@ -165,6 +165,7 @@
         </a>
         <h2>회원가입</h2>
         <form id="signupForm" class="signup-form" action="/join/register" method="post" autocomplete="off" novalidate>
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
             <div class="input-group">
                 <label for="id">아이디 <span class="required">*</span></label>
                 <i class="ri-user-3-line input-icon"></i>
