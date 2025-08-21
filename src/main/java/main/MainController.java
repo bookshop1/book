@@ -16,6 +16,8 @@ public class MainController {
 	@Autowired
 	MainService service;
 	
+	
+	
 	@GetMapping
     public String list(@RequestParam(value = "keyword", required = false) String keyword,
                        @RequestParam(value = "category", required = false) String category,
@@ -24,14 +26,14 @@ public class MainController {
         List<Book> books;
         
         if (category != null && !category.trim().isEmpty()) {
-            // 카테고리별 조회
+            // 移댄뀒怨좊━蹂� 議고쉶
             books = service.findByCategory(category);
             model.addAttribute("currentCategory", category);
         } else if (keyword != null && !keyword.trim().isEmpty()) {
-            // 검색어 조회
+            // 寃��깋�뼱 議고쉶
             books = service.search(keyword);
         } else {
-            // 전체 조회
+            // �쟾泥� 議고쉶
             books = service.findAll();
         }
         

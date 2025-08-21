@@ -20,7 +20,7 @@ public class AdminController {
 	
 	@GetMapping("/main")
 	public String list(Model model) {
-		List<Book> books = service.findAll();
+		List<AdminBook> books = service.findAll();
 		model.addAttribute("books", books);
 		return "admin_main";
 	}
@@ -31,7 +31,7 @@ public class AdminController {
 	}
 	
 	@PostMapping("/add")
-	public String insertbook(Book book) {
+	public String insertbook(AdminBook book) {
 		service.insertbook(book);
 		return "redirect:/admin/main";
 	}
@@ -40,13 +40,13 @@ public class AdminController {
 	//¼öÁ¤
 	@GetMapping("/edit/{b_id}")
 	public String editForm(@PathVariable int b_id, Model model) {
-	    Book book = service.findById(b_id);
+	    AdminBook book = service.findById(b_id);
 	    model.addAttribute("book", book);
 	    return "/book_edit";
 	}
 	
 	@PostMapping("/edit")
-	public String updateBook(Book book) {
+	public String updateBook(AdminBook book) {
 	    service.updateBook(book);
 	    return "redirect:/admin/main";
 	}

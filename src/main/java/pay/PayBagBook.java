@@ -13,8 +13,8 @@ import lombok.ToString;
 @Setter
 @ToString
 @Builder
-public class BagBook {
-    private int b_id;      // b_id 매핑됨
+public class PayBagBook {
+    private int b_id;      // b_id 매핑?��
     private String title;
     private String pic;
     private int quantity;

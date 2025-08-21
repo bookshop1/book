@@ -1,45 +1,52 @@
 package login;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
+import join.UserVO; // UserVO import
+import lombok.RequiredArgsConstructor;
+
 @Component
+@RequiredArgsConstructor
 public class CustomerLoginSuccessHandler implements AuthenticationSuccessHandler {
+
+    private final LoginMapper loginMapper;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
-                                        HttpServletResponse response,
-                                        Authentication authentication)
-                                        throws IOException, ServletException {
+                                          HttpServletResponse response,
+                                          Authentication authentication)
+                                          throws IOException, ServletException {
+        
+        // 1. 로그인한 사용자의 아이디(String)를 가져옵니다.
+        String username = authentication.getName();
+        
+        // 2. 아이디를 이용해 DB에서 전체 사용자 정보(UserVO)를 다시 조회합니다.
+        UserVO user = loginMapper.findById(username);
 
-        // 권한 목록을 문자열로 변환
-        List<String> roleNames = new ArrayList<>();
-        authentication.getAuthorities().forEach(authority -> {
-            roleNames.add(authority.getAuthority());
-        });
+        // 3. 새로운 세션을 가져와 필요한 정보를 저장합니다.
+        // UserVO 클래스에 getU_id(), getId(), getRole() 메소드가 있어야 합니다.
+        HttpSession session = request.getSession();
+        session.setAttribute("userId", user.getU_id());       // Integer 타입의 회원 번호
+        session.setAttribute("loggedInUser", user.getId());   // String 타입의 아이디
+        
+        String role = user.getRole().replace("ROLE_", "");
+        session.setAttribute("userRole", role);   // "USER" 또는 "ADMIN"
 
-        System.out.println("로그인 성공 - 권한: " + roleNames);
+        System.out.println("로그인 성공 - 회원번호: " + user.getU_id() + ", 아이디: " + user.getId() + ", 역할: " + role);
 
-        // ROLE_USER만 체크
-        if (roleNames.contains("ROLE_ADMIN")) {
-            response.sendRedirect("/admin/main");
-            return; // 리다이렉트 후에는 처리를 종료하는 것이 좋습니다.
+        // 4. 권한에 따라 리다이렉트 (Context Path '/book' 포함)
+        if ("ADMIN".equals(role)) {
+            response.sendRedirect(request.getContextPath() + "/admin/main");
+        } else {
+            response.sendRedirect(request.getContextPath() + "/main");
         }
-
-        if (roleNames.contains("ROLE_USER")) {
-            response.sendRedirect("/main");
-            return;
-        }  
-     // 로그인 페이지로 보내는 것보다, 메인 페이지나 에러 페이지로 보내는 것이 사용자 경험에 더 좋습니다.
-        response.sendRedirect("/main"); // 예: 기본 페이지로 리다이렉트
     }
 }

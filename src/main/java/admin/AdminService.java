@@ -12,11 +12,11 @@ public class AdminService {
 	@Autowired
 	AdminMapper mapper;
 	
-	public List<Book> findAll() {
+	public List<AdminBook> findAll() {
 		return mapper.findAll();
 	}
 
-	public Book findById(int b_id) {
+	public AdminBook findById(int b_id) {
 		
 		return mapper.findById(b_id);
 	}
@@ -25,11 +25,11 @@ public class AdminService {
 		return mapper.delete(b_id);		
 	}
 
-	public void insertbook(Book book) {
+	public void insertbook(AdminBook book) {
 		mapper.insertbook(book);
 	}
 
-	public void updateBook(Book book) {
+	public void updateBook(AdminBook book) {
 		mapper.updateBook(book);
 		
 	}

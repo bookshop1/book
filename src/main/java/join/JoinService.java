@@ -10,6 +10,10 @@ public class JoinService {
 
     private final JoinMapper mapper; // DB와 통신하는 레포지토리
     private final PasswordEncoder passwordEncoder; // SecurityConfig에 Bean으로 등록한 그것!
+    
+    public UserVO findUserById(int userId) {
+        return mapper.findUserById(userId);
+    }
 
     public int register(UserVO userVO) {
         

@@ -10,7 +10,7 @@ import lombok.ToString;
 @Table(name = "book")
 @Data
 @ToString
-public class Book {
+public class AdminBook {
 	
 	private int b_id;
 	private int num;

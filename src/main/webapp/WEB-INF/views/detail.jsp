@@ -69,6 +69,7 @@
 			    </div>
 			</form>
 			<form action="/pay" method="post">
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 			    <input type="hidden" name="b_id" value="${view.b_id}">
 			    <input type="hidden" name="title" value="${view.title}">
 			    <input type="hidden" name="author" value="${view.author}">

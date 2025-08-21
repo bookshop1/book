@@ -24,8 +24,8 @@
 
 
 	<select id="getNextPaymentId" resultType="int">
-	    SELECT payment_id_seq.NEXTVAL FROM dual
-	</select>
+    SELECT payment_item_id_seq.NEXTVAL FROM dual
+</select>
 
 
 <!-- 결제 및 주문상품을 각각 행으로 저장 -->
