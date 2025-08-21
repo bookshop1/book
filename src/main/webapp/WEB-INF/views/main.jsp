@@ -40,6 +40,58 @@
 
 
   <main class="container py-5">
+    
+    <!-- ✅ 베스트셀러 (캐러셀) -->
+  <!-- ✅ 베스트셀러 (캐러셀) -->
+<h2 class="fw-semibold mb-3"></h2>
+
+<div id="bestsellerCarousel" class="carousel slide mb-5 shadow-sm rounded overflow-hidden" 
+     data-bs-ride="carousel" data-bs-interval="4000">
+  <div class="carousel-inner bg-light p-4">
+
+    <c:forEach var="book" items="${books}" begin="0" end="2" varStatus="status">
+      <div class="carousel-item ${status.first ? 'active' : ''}">
+        <div class="row align-items-center justify-content-center">
+          
+          <!-- 표지 이미지 크게 -->
+          <div class="col-md-4 text-center">
+            <a href="/view/detail?id=${book.b_id}">
+              <img src="${book.pic}" alt="책 표지" 
+                   class="rounded shadow" 
+                   style="width:200px; height:280px; object-fit:cover;">
+            </a>
+          </div>
+
+          <!-- 책 정보 크게 -->
+          <div class="col-md-6">
+            <h3 class="fw-bold mb-3">
+              <a href="/view/detail?id=${book.b_id}" class="text-dark text-decoration-none">
+                ${book.title}
+              </a>
+            </h3>
+            <p class="text-secondary fs-5 mb-2">저자: ${book.author}</p>
+            <span class="fw-bold fs-3 text-danger">₩ ${book.price}</span>
+            <p class="mt-3 text-muted line-clamp-2">${book.info}</p>
+          </div>
+
+        </div>
+      </div>
+    </c:forEach>
+
+  </div>
+
+  <!-- 좌우 화살표 -->
+  <button class="carousel-control-prev" type="button" data-bs-target="#bestsellerCarousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#bestsellerCarousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </button>
+</div>
+
+
+
+    <!-- ✅ 추천 도서 -->
     <h2 class="fw-semibold mb-4">📚 추천 도서</h2>
 
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
@@ -48,7 +100,6 @@
         <div class="col">
           <div class="card h-100 border-0 shadow-sm">
             
-         
             <c:if test="${not empty book.pic}">
               <a href="/view/detail?id=${book.b_id}">
                 <img src="${book.pic}" class="card-img-top" alt="책 표지" />
