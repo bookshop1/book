@@ -18,7 +18,7 @@ public class CustomerLoginDeniedHandler implements AccessDeniedHandler {
                        HttpServletResponse response,
                        AccessDeniedException accessDeniedException)
                        throws IOException, ServletException {
-        // ±ÇÇÑ ¾øÀ» ¶§ ¿¡·¯ ÆäÀÌÁö·Î ÀÌµ¿
+        // ê¶Œí•œ ì—†ì„ ë•Œ ì—ëŸ¬ í˜ì´ì§€ë¡œ ì´ë™
         response.sendRedirect("/login/loginform");
     }
 }

@@ -48,7 +48,7 @@
 
         <!-- 가운데: 책 이미지 -->
         <div class="col-md-5 text-center px-2">
-            <img src="/images/book/${view.pic}" alt="${view.title}" class="book-image img-thumbnail">
+            <img src="${view.pic}" alt="${view.title}" class="book-image img-thumbnail">
         </div>
 
         <!-- 오른쪽: 책 소개 + 버튼 -->
