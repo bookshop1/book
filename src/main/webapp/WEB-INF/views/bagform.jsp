@@ -67,7 +67,9 @@
             </c:otherwise>
         </c:choose>
     </div>
+    <a href="/main" class="btn btn-primary btn-home">쇼핑 계속하기</a>
 </div>
+
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {

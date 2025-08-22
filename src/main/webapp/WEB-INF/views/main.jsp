@@ -34,6 +34,11 @@
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
+    
+    .carousel-control-prev-icon,
+	.carousel-control-next-icon {
+	  filter: invert(1); /* 흰색 아이콘을 검정색으로 반전 */
+	}
   </style>
 </head>
 <body>
@@ -41,8 +46,8 @@
 
   <main class="container py-5">
     
-    <!-- ✅ 베스트셀러 (캐러셀) -->
   <!-- ✅ 베스트셀러 (캐러셀) -->
+  <h2 class="fw-semibold mb-4">👍 추천 도서</h2>
 <h2 class="fw-semibold mb-3"></h2>
 
 <div id="bestsellerCarousel" class="carousel slide mb-5 shadow-sm rounded overflow-hidden" 
@@ -91,8 +96,8 @@
 
 
 
-    <!-- ✅ 추천 도서 -->
-    <h2 class="fw-semibold mb-4">📚 추천 도서</h2>
+    <!-- 도서 목록 -->
+    <h2 class="fw-semibold mb-4">📚 도서 목록</h2>
 
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
 

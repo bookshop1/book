@@ -43,8 +43,8 @@
 						    <button type="submit" class="btn btn-sm btn-outline-danger me-2">로그아웃</button>
 						    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 						</form>
-                        <a href="/bag/bagform" class="btn btn-sm btn-outline-primary">🛒 장바구니</a>
-                        <a href="/paymentHistory" class="btn btn-sm btn-outline-primary">결제내역</a>
+                        <a href="/bag/bagform" class="btn btn-sm btn-outline-primary me-2">🛒 장바구니</a>
+                        <a href="/paymentHistory" class="btn btn-sm btn-outline-primary me-2">결제내역</a>
 
                         <%-- 4. 관리자(ADMIN)일 경우에만 '차트' 버튼 표시 --%>
                         <c:if test="${sessionScope.userRole eq 'ADMIN'}">
@@ -55,7 +55,7 @@
                     <c:otherwise>
                         <a href="/login/loginform" class="btn btn-sm btn-outline-secondary me-2">로그인</a>
                         <a href="/join/joinform" class="btn btn-sm btn-outline-secondary me-2">회원가입</a>
-                        <a href="/bag/bagform" class="btn btn-sm btn-outline-primary">🛒 장바구니</a>
+                        <a href="/bag/bagform" class="btn btn-sm btn-outline-primary me-2">🛒 장바구니</a>
                     </c:otherwise>
                 </c:choose>
             </div>

@@ -11,6 +11,10 @@
 <body class="container py-5">
 
     <h2 class="mb-5 text-center">🧾 결제 내역</h2>
+    
+    <div class="text-center">
+        <a href="/main" class="btn btn-outline-primary">🏠 홈으로 돌아가기</a>
+    </div>
 
     <c:forEach var="payment" items="${paymentList}">
         <div class="card mb-5 shadow-sm">
@@ -48,9 +52,7 @@
         </div>
     </c:forEach>
 
-    <div class="text-center">
-        <a href="/main" class="btn btn-outline-primary">🏠 홈으로 돌아가기</a>
-    </div>
+    
 
 </body>
 </html>
