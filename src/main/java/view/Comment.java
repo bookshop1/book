@@ -13,5 +13,6 @@ public class Comment {
 	private String writer;
 	private String content;
 	private LocalDateTime regDate;
+	  private int score;
 
 }

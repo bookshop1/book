@@ -10,15 +10,16 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class CommentService {
-	
-	@Autowired
-	private CommentMapper mapper;
-	
-	public void addComment(Comment comment) {
-		mapper.insertComment(comment);
-	}
-	
-	public List<Comment> getCommentsByBookId(int b_id) {
-		return mapper.selectCommentsByBookId(b_id);
-	}
+
+    private final CommentMapper mapper;
+
+    public void addComment(Comment comment) {
+        mapper.insertComment(comment);
+    }
+
+    public List<Comment> getCommentsByBookId(int b_id) {
+        return mapper.selectCommentsByBookId(b_id);
+    }
+
+  
 }

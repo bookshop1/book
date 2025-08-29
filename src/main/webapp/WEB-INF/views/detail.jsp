@@ -5,6 +5,14 @@
 <!DOCTYPE html>
 <html>
 <%@ include file="header.jsp" %>
+<script>
+function showEditForm(id) {
+    document.getElementById("editForm" + id).style.display = "block";
+}
+function hideEditForm(id) {
+    document.getElementById("editForm" + id).style.display = "none";
+}
+</script>
 <head>
     <meta charset="UTF-8">
     <title>${view.title}</title>
@@ -89,12 +97,12 @@
   
 <hr class="my-4">
 
-<!-- 댓글 입력 -->
+<!-- 댓글 작성 -->
 <div class="mt-4">
     <h5>댓글 작성</h5>
     <form action="/comments/add" method="post">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-        <input type="hidden" name="b_id" value="${view.b_id}">
+        <input type="hidden" name="b_id" value="${view.b_id}" />
 
         <div class="mb-2">
             <input type="text" name="writer" class="form-control" placeholder="작성자" required>
@@ -102,20 +110,39 @@
         <div class="mb-2">
             <textarea name="content" class="form-control" rows="3" placeholder="댓글 내용을 입력하세요" required></textarea>
         </div>
+        <div class="mb-2">
+            <label for="score"><strong>별점:</strong></label>
+            <select name="score" id="score" class="form-select" required>
+                <option value="">선택하세요</option>
+                <option value="1">★☆☆☆☆</option>
+                <option value="2">★★☆☆☆</option>
+                <option value="3">★★★☆☆</option>
+                <option value="4">★★★★☆</option>
+                <option value="5">★★★★★</option>
+            </select>
+        </div>
         <button type="submit" class="btn btn-primary">댓글 등록</button>
     </form>
 </div>
-
 <!-- 댓글 목록 -->
 <div class="mt-4">
     <h5>댓글 목록</h5>
     <c:forEach var="c" items="${comments}">
         <div class="border p-2 mb-2 rounded">
-            <p class="mb-1"><strong>${c.writer}</strong> <small class="text-muted">(${c.regDate})</small></p>
-            <p class="mb-0">${c.content}</p>
-        </div>
-    </c:forEach>
-</div>
+            <p class="mb-1">
+                <strong>${c.writer}</strong> 
+                <small class="text-muted">(${c.regDate})</small>
+            </p>
+            <p class="mb-0">
+                ${c.content} 
+                <span class="text-warning">
+                    <c:forEach begin="1" end="${c.score}" var="i">★</c:forEach>
+                    <c:forEach begin="${c.score + 1}" end="5" var="i">☆</c:forEach>
+                </span>
+            </p>
+           </div>
+           </c:forEach>
+           
   
 </body>
 </html>
