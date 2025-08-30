@@ -20,7 +20,14 @@
                 </c:choose>
             </div>
 
-            <form action="/main" method="get" class="d-flex flex-grow-1 justify-content-center" style="max-width: 400px;">
+            <c:choose>
+                <c:when test="${sessionScope.userRole eq 'ADMIN'}">
+                    <form action="/admin/main" method="get" class="d-flex flex-grow-1 justify-content-center" style="max-width: 400px;">
+                </c:when>
+                <c:otherwise>
+                    <form action="/main" method="get" class="d-flex flex-grow-1 justify-content-center" style="max-width: 400px;">
+                </c:otherwise>
+            </c:choose>
                 <div class="input-group rounded shadow-sm">
                     <span class="input-group-text bg-white border-0">
                         <i class="bi bi-search text-secondary"></i>
@@ -33,12 +40,9 @@
 
             <div class="d-flex align-items-center">
                 <c:choose>
-                    <%-- 1. 세션에 'loggedInUser'가 있는지 확인 (loginUser -> loggedInUser로 수정) --%>
                     <c:when test="${not empty sessionScope.loggedInUser}">
-                        <%-- 2. 사용자 이름 표시 (${... .id} 제거) --%>
                         <span class="me-2">👤 <strong>${sessionScope.loggedInUser}</strong> 님</span>
                         
-                        <%-- 3. 로그아웃 URL 수정 (/login/logout -> /logout) --%>
                         <form action="/logout" method="post" style="display: inline;">
 						    <button type="submit" class="btn btn-sm btn-outline-danger me-2">로그아웃</button>
 						    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
@@ -46,7 +50,6 @@
                         <a href="/bag/bagform" class="btn btn-sm btn-outline-primary me-2">🛒 장바구니</a>
                         <a href="/paymentHistory" class="btn btn-sm btn-outline-primary me-2">결제내역</a>
 
-                        <%-- 4. 관리자(ADMIN)일 경우에만 '차트' 버튼 표시 --%>
                         <c:if test="${sessionScope.userRole eq 'ADMIN'}">
                             <a href="/chart" class="btn btn-sm btn-outline-success">📊 차트</a>
                         </c:if>
@@ -69,14 +72,24 @@
                     카테고리
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="categoryDropdown">
-                    <li><a class="dropdown-item" href="/main?category=essay">에세이</a></li>
-                    <li><a class="dropdown-item" href="/main?category=novel">소설</a></li>
-                    <li><a class="dropdown-item" href="/main?category=humanities">인문</a></li>
-                    <li><a class="dropdown-item" href="/main?category=health">건강</a></li>
-                    <li><a class="dropdown-item" href="/main?category=economy">경제</a></li>
+                    <c:choose>
+                        <c:when test="${sessionScope.userRole eq 'ADMIN'}">
+                            <li><a class="dropdown-item" href="/admin/main?category=essay">에세이</a></li>
+                            <li><a class="dropdown-item" href="/admin/main?category=novel">소설</a></li>
+                            <li><a class="dropdown-item" href="/admin/main?category=humanities">인문</a></li>
+                            <li><a class="dropdown-item" href="/admin/main?category=health">건강</a></li>
+                            <li><a class="dropdown-item" href="/admin/main?category=economy">경제</a></li>
+                        </c:when>
+                        <c:otherwise>
+                            <li><a class="dropdown-item" href="/main?category=essay">에세이</a></li>
+                            <li><a class="dropdown-item" href="/main?category=novel">소설</a></li>
+                            <li><a class="dropdown-item" href="/main?category=humanities">인문</a></li>
+                            <li><a class="dropdown-item" href="/main?category=health">건강</a></li>
+                            <li><a class="dropdown-item" href="/main?category=economy">경제</a></li>
+                        </c:otherwise>
+                    </c:choose>
                 </ul>
             </li>
-            
         </ul>
     </div>
 </div>
