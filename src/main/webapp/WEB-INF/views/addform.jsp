@@ -1,15 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="join.UserVO" %>
-<%
-	UserVO loginUser = (UserVO) session.getAttribute("loginUser");
-	String role = (loginUser != null) ? loginUser.getRole() : null;
-
-    if (role == null || !role.equals("ROLE_ADMIN")) {
-        response.sendRedirect(request.getContextPath() + "/main");
-        return;
-    }
-%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -23,10 +14,6 @@
     <form action="${pageContext.request.contextPath}/admin/add" method="post">
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
         <div class="mb-3">
-            <label for="num" class="form-label">도서 번호</label>
-            <input type="text" class="form-control" id="num" name="num" required>
-        </div>
-        <div class="mb-3">
             <label for="pic" class="form-label">이미지 파일명</label>
             <input type="text" class="form-control" id="pic" name="pic" placeholder="예: book01.jpg">
         </div>
@@ -37,6 +24,17 @@
         <div class="mb-3">
             <label for="author" class="form-label">저자</label>
             <input type="text" class="form-control" id="author" name="author" required>
+        </div>
+        <div class="mb-3">
+            <label for="category" class="form-label">카테고리</label>
+            <select class="form-select" id="category" name="category" required>
+                <option value=" ">카테고리 선택</option>
+                <option value="essay">에세이</option>
+                <option value="novel">소설</option>
+                <option value="humanities">인문</option>
+                <option value="health">건강</option>
+                <option value="economy">경제</option>
+            </select>
         </div>
         <div class="mb-3">
             <label for="price" class="form-label">가격</label>

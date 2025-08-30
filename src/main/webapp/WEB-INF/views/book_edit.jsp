@@ -2,15 +2,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page import="join.UserVO" %>
-<%
-	UserVO loginUser = (UserVO) session.getAttribute("loginUser");
-	String role = (loginUser != null) ? loginUser.getRole() : null;
-
-    if (role == null || !role.equals("ROLE_ADMIN")) {
-        response.sendRedirect(request.getContextPath() + "/main");
-        return;
-    }
-%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -24,11 +15,7 @@
     <form action="${pageContext.request.contextPath}/admin/edit" method="post">
         <!-- 수정할 도서의 ID는 숨김 필드로 보냄 -->
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-
-        <div class="mb-3">
-            <label for="num" class="form-label">도서 번호</label>
-            <input type="text" class="form-control" id="num" name="num" value="${book.num}" required>
-        </div>
+        <input type="hidden" name="b_id" value="${book.b_id}" />
         <div class="mb-3">
             <label for="pic" class="form-label">이미지 파일명</label>
             <input type="text" class="form-control" id="pic" name="pic" value="${book.pic}">
@@ -40,6 +27,17 @@
         <div class="mb-3">
             <label for="author" class="form-label">저자</label>
             <input type="text" class="form-control" id="author" name="author" value="${book.author}" required>
+        </div>
+        <div class="mb-3">
+            <label for="category" class="form-label">카테고리</label>
+            <select class="form-select" id="category" name="category" required>
+                <option value=" ">카테고리 선택</option>
+                <option value="essay" <c:if test="${book.category eq 'essay'}">selected</c:if>>에세이</option>
+                <option value="novel" <c:if test="${book.category eq 'novel'}">selected</c:if>>소설</option>
+                <option value="humanities" <c:if test="${book.category eq 'humanities'}">selected</c:if>>인문</option>
+                <option value="health" <c:if test="${book.category eq 'health'}">selected</c:if>>건강</option>
+                <option value="economy" <c:if test="${book.category eq 'economy'}">selected</c:if>>경제</option>
+            </select>
         </div>
         <div class="mb-3">
             <label for="price" class="form-label">가격</label>
