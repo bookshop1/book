@@ -19,4 +19,5 @@ public class AdminBook {
 	private String author;
 	private int price;
 	private String info;
+	private String category;
 }

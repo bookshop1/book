@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import main.Book;
+
 
 @Service
 public class AdminService {
@@ -34,4 +36,11 @@ public class AdminService {
 		
 	}
 
+	public List<AdminBook> search(String keyword) {
+		return mapper.search(keyword);
+	}
+	
+	public List<AdminBook> findByCategory(String category) {
+        return mapper.findByCategory(category);
+    }
 }
