@@ -41,4 +41,21 @@ public class BagService {
     public BagBook getBookById(int b_id) {
         return mapper.findBookById(b_id);
     }
+    
+    /** 장바구니 항목 업데이트 (전체) */
+    public void updateAllBagItems(Integer uId, List<BagBook> bagItems) {
+        if (bagItems != null && !bagItems.isEmpty()) {
+            for (BagBook item : bagItems) {
+                Integer existingCount = mapper.countItem(uId, item.getB_id());
+
+                if (existingCount > 0) {
+                    // 이미 있으면 수량 업데이트
+                    mapper.updateQty(uId, item.getB_id(), item.getQuantity());
+                } else {
+                    // 없으면 새로 추가
+                    mapper.insertBag(uId, item.getB_id(), item.getQuantity());
+                }
+            }
+        }
+    }
 }

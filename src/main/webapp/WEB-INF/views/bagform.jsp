@@ -51,7 +51,6 @@
                         </div>
                     </c:forEach>
 
-                    <!-- 총합 영역 -->
                     <div class="summary-box mt-4">
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="fs-5"><strong>총합계</strong></div>
@@ -70,53 +69,132 @@
     <a href="/main" class="btn btn-primary btn-home">쇼핑 계속하기</a>
 </div>
 
-
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     const qtyInputs = document.querySelectorAll('.qty-input');
     const qtyHidden = document.querySelectorAll('.qty-hidden');
     const itemTotals = document.querySelectorAll('.item-total');
     const totalElem = document.querySelector('#totalPrice');
+    const deleteButtons = document.querySelectorAll('.delete-btn');
+    const payForm = document.getElementById('payForm');
 
-    // CSRF 토큰 가져오기
     const csrfParameter = document.querySelector('input[name="_csrf"]').name;
     const csrfToken = document.querySelector('input[name="_csrf"]').value;
+    const isUserLoggedIn = '<%= request.getSession().getAttribute("userId") != null %>';
 
-    // 수량 변경시 총합 업데이트
+    // ✅ 수량 변경 시 총합 업데이트 (수정된 부분)
     function updateTotals() {
         let total = 0;
+        let formIsEmpty = true;
         qtyInputs.forEach((input, idx) => {
-            const qty = parseInt(input.value);
+            // 입력값이 비어있거나 유효한 숫자가 아니면 0으로 처리
+            const qty = input.value === '' || isNaN(parseInt(input.value)) ? 0 : parseInt(input.value);
+            
+            // 입력 필드의 값 자체를 0으로 고정하여 사용자에게 표시
+            input.value = qty; 
+
             const price = parseInt(input.closest('.cart-item').querySelector('.price-cell').dataset.price);
             const itemTotal = qty * price;
-            itemTotals[idx].textContent = itemTotal + '원';
-            qtyHidden[idx].value = qty; // hidden input 동기화
+            itemTotals[idx].textContent = itemTotal.toLocaleString('ko-KR') + '원';
+            qtyHidden[idx].value = qty;
             total += itemTotal;
+            if (qty > 0) {
+                formIsEmpty = false;
+            }
         });
-        totalElem.textContent = total + '원';
+        totalElem.textContent = total.toLocaleString('ko-KR') + '원';
+        
+        // 장바구니가 비어 있으면 결제 버튼 숨기기
+        const orderButton = payForm.querySelector('button[type="submit"]');
+        if (formIsEmpty) {
+            orderButton.style.display = 'none';
+        } else {
+            orderButton.style.display = 'inline-block';
+        }
     }
+
+    updateTotals();
 
     qtyInputs.forEach(input => {
         input.addEventListener('input', updateTotals);
         input.addEventListener('change', function() {
             updateTotals();
-            const bId = this.closest('.cart-item').dataset.bid;
-
-            const formData = new URLSearchParams();
-            formData.append('b_id', bId);
-            formData.append('quantity', this.value);
-            formData.append(csrfParameter, csrfToken); // CSRF 토큰 포함
-
-            fetch('/bag/update-guest-quantity', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: formData.toString()
-            });
+            
+            if (isUserLoggedIn === 'false') {
+                const bId = this.closest('.cart-item').dataset.bid;
+                const formData = new URLSearchParams();
+                formData.append('b_id', bId);
+                formData.append('quantity', this.value);
+                formData.append(csrfParameter, csrfToken);
+    
+                fetch('/bag/update-guest-quantity', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: formData.toString()
+                }).then(resp => {
+                    if(!resp.ok) {
+                       console.error("수량 업데이트 실패");
+                    }
+                });
+            }
         });
     });
 
-    // 삭제 버튼
-    const deleteButtons = document.querySelectorAll('.delete-btn');
+    // ✅ 결제 폼 제출 전 유효성 검사 (추가된 부분)
+    payForm.addEventListener('submit', function(event) {
+        let hasValidItems = false;
+        qtyInputs.forEach(input => {
+            const qty = parseInt(input.value);
+            if (!isNaN(qty) && qty > 0) {
+                hasValidItems = true;
+            }
+        });
+
+        if (!hasValidItems) {
+            event.preventDefault(); // 폼 제출 막기
+            alert('장바구니에 유효한 상품이 없습니다.');
+        }
+    });
+
+    function getLoggedInUserCartData() {
+        const cartItems = [];
+        document.querySelectorAll('.cart-item').forEach(itemElem => {
+            const bId = itemElem.dataset.bid;
+            const quantity = itemElem.querySelector('.qty-input').value;
+            // 결제 전송 시 유효성 검사를 통해 0이 아닌 값만 전송하므로 별도 로직 불필요
+            cartItems.push({
+                b_id: bId,
+                quantity: quantity
+            });
+        });
+        return cartItems;
+    }
+
+    window.addEventListener('beforeunload', function (event) {
+        const isUserLoggedIn = '<%= request.getSession().getAttribute("userId") != null %>';
+
+        if (isUserLoggedIn === 'true') {
+            const cartData = getLoggedInUserCartData();
+            const csrfToken = document.querySelector('input[name="_csrf"]').value;
+            const csrfHeaderName = 'X-CSRF-TOKEN'; 
+
+            fetch('/bag/save-bag-items', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    [csrfHeaderName]: csrfToken 
+                },
+                body: JSON.stringify(cartData)
+            })
+            .then(response => {
+                console.log('장바구니 업데이트 요청 전송 완료');
+            })
+            .catch(error => {
+                console.error('장바구니 업데이트 요청 실패:', error);
+            });
+        }
+    });
+
     deleteButtons.forEach(btn => {
         btn.addEventListener('click', function() {
             const cartItem = this.closest('.cart-item');
@@ -124,7 +202,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             const formData = new URLSearchParams();
             formData.append('b_id', bId);
-            formData.append(csrfParameter, csrfToken); // CSRF 토큰 포함
+            formData.append(csrfParameter, csrfToken);
 
             fetch('/bag/bagdelete', {
                 method: 'POST',
@@ -137,12 +215,15 @@ document.addEventListener("DOMContentLoaded", function() {
 
                     const remainingItems = document.querySelectorAll('.cart-item');
                     if(remainingItems.length === 0){
-                        document.getElementById('payForm').style.display = 'none';
-                        totalElem.textContent = '0원';
+                        const cartCard = document.querySelector('.cart-card');
+                        cartCard.innerHTML = '<h2 class="text-primary mb-4"><i class="fas fa-shopping-cart"></i> 내 장바구니</h2><div class="alert alert-info">장바구니에 책이 없습니다.</div>';
                     }
                 } else {
                     alert('삭제 실패');
                 }
+            }).catch(error => {
+                console.error('삭제 요청 중 오류 발생:', error);
+                alert('삭제 실패: 네트워크 오류');
             });
         });
     });

@@ -10,7 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
-import join.UserVO; // UserVO import
+import join.UserVO;
 import lombok.RequiredArgsConstructor;
 
 @Component
@@ -25,34 +25,32 @@ public class CustomerLoginSuccessHandler implements AuthenticationSuccessHandler
                                         Authentication authentication)
                                         throws IOException, ServletException {
         
-        // 1. 로그인한 사용자의 아이디(String)를 가져옵니다.
         String username = authentication.getName();
-        
-        // 2. 아이디를 이용해 DB에서 전체 사용자 정보(UserVO)를 다시 조회합니다.
         UserVO user = loginMapper.findById(username);
-
-        // 3. 새로운 세션을 가져와 필요한 정보를 저장합니다.
         HttpSession session = request.getSession();
-        session.setAttribute("userId", user.getU_id());       // 회원 번호
-        session.setAttribute("loggedInUser", user.getId());   // 아이디
+
+        session.setAttribute("userId", user.getU_id());
+        session.setAttribute("loggedInUser", user.getId());
         String role = user.getRole().replace("ROLE_", "");
-        session.setAttribute("userRole", role);   // "USER" 또는 "ADMIN"
+        session.setAttribute("userRole", role);
 
         System.out.println("로그인 성공 - 회원번호: " + user.getU_id() 
                          + ", 아이디: " + user.getId() 
                          + ", 역할: " + role);
 
-        // 4. 게스트 카트 처리
-        Object guestCart = session.getAttribute("guestCart");
-        if (guestCart != null) {
-            response.sendRedirect(request.getContextPath() + "/bag/login-success");
-            return;
-        }
-
-        // 5. 권한에 따라 리다이렉트
-        if ("ADMIN".equals(role)) {
-            response.sendRedirect(request.getContextPath() + "/admin/main");
+        // ✅ 수정된 로직: 로그인 직전 페이지를 확인하여 장바구니로 리다이렉트할지 결정
+        String redirectUrl = request.getHeader("Referer");
+        if (redirectUrl != null && redirectUrl.endsWith("/login/loginform")) {
+            // 로그인 폼으로 리다이렉트 되기 전 URL을 세션에서 가져옴
+            String prevUrl = (String) session.getAttribute("prevUrl");
+            // 이전 URL이 /pay 요청이었다면 장바구니 페이지로 리다이렉트
+            if (prevUrl != null && prevUrl.endsWith("/pay")) {
+                 response.sendRedirect(request.getContextPath() + "/bag/login-success");
+            } else {
+                 response.sendRedirect(request.getContextPath() + "/main");
+            }
         } else {
+            // 그 외의 경우 (예: 로그인 폼으로 직접 이동) 메인 페이지로 리다이렉트
             response.sendRedirect(request.getContextPath() + "/main");
         }
     }
