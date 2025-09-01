@@ -21,22 +21,23 @@
             </div>
 
             <c:choose>
-                <c:when test="${sessionScope.userRole eq 'ADMIN'}">
-                    <form action="/admin/main" method="get" class="d-flex flex-grow-1 justify-content-center" style="max-width: 400px;">
-                </c:when>
-                <c:otherwise>
-                    <form action="/main" method="get" class="d-flex flex-grow-1 justify-content-center" style="max-width: 400px;">
-                </c:otherwise>
-            </c:choose>
-                <div class="input-group rounded shadow-sm">
-                    <span class="input-group-text bg-white border-0">
-                        <i class="bi bi-search text-secondary"></i>
-                    </span>
-                    <input type="text" name="keyword" class="form-control border-0"
-                           placeholder="도서 제목 또는 저자명 검색" value="${param.keyword}">
-                    <button class="btn btn-primary px-3" type="submit">검색</button>
-                </div>
-            </form>
+			    <c:when test="${sessionScope.userRole eq 'ADMIN'}">
+			        <form action="${pageContext.request.contextPath}/admin/main" method="get" class="d-flex justify-content-center" style="max-width:400px;">
+			    </c:when>
+			    <c:otherwise>
+			        <form action="${pageContext.request.contextPath}/main" method="get" class="d-flex justify-content-center" style="max-width:400px;">
+			    </c:otherwise>
+			</c:choose>
+			    <div class="input-group rounded shadow-sm">
+			        <span class="input-group-text bg-white border-0">
+			            <i class="bi bi-search text-secondary"></i>
+			        </span>
+			        <input type="text" name="keyword" class="form-control border-0"
+			               placeholder="도서 제목 또는 저자명 검색" value="${param.keyword}">
+			        <button class="btn btn-primary px-3" type="submit">검색</button>
+			    </div>
+			</form>
+
 
             <div class="d-flex align-items-center">
                 <c:choose>

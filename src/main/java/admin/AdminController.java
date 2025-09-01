@@ -9,6 +9,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import chart.ReviewAvgDTO;
+import main.Book;
+import main.MainService;
+import view.Comment;
+import view.CommentService;
 
 
 @Controller
@@ -18,11 +25,33 @@ public class AdminController {
 	@Autowired
 	AdminService service;
 	
+	@Autowired
+	MainService mainService;
+	
+	@Autowired
+	CommentService commentService;
+
+	
 	@GetMapping("/main")
-	public String list(Model model) {
-		List<AdminBook> books = service.findAll();
-		model.addAttribute("books", books);
-		return "admin_main";
+	public String list(@RequestParam(value = "keyword", required = false) String keyword,
+			            @RequestParam(value = "category", required = false) String category,
+			            Model model) {
+		List<Book> books;
+
+	    if (category != null && !category.trim().isEmpty()) {
+	        // 카테고리별 조회
+	        books = mainService.findByCategory(category);
+	        model.addAttribute("currentCategory", category);
+	    } else if (keyword != null && !keyword.trim().isEmpty()) {
+	        // 키워드 검색
+	        books = mainService.search(keyword);
+	    } else {
+	        // 전체 조회
+	        books = mainService.findAll();
+	    }
+
+	    model.addAttribute("books", books);
+	    return "admin_main";
 	}
 	//�߰�
 	@GetMapping("/addform")
@@ -57,12 +86,24 @@ public class AdminController {
 	    service.deleteBook(b_id);
 	    return "redirect:/admin/main";
 	}
+	
 	@GetMapping("/detail")
-	public String detail(int id, Model model) {
+	public String detail(@RequestParam("id") int id, Model model) {
+	    // 도서 상세 정보
 	    AdminBook book = service.findById(id);
 	    model.addAttribute("book", book);
-	    return "admindetail";  // JSP가 /WEB-INF/views/view/admindetail.jsp 에 있을 경우
+
+	    // 해당 도서의 댓글 목록
+	    List<Comment> comments = commentService.getCommentsByBookId(id);
+	    model.addAttribute("comments", comments);
+
+	    // 해당 도서의 평균 별점과 리뷰 수
+	    ReviewAvgDTO reviewAvg = commentService.getReviewAvgByBookId(id);
+	    model.addAttribute("reviewAvg", reviewAvg);
+
+	    return "admindetail";  // /WEB-INF/views/view/admindetail.jsp
 	}
+
 
 	
 }

@@ -37,20 +37,27 @@ public class CustomerLoginSuccessHandler implements AuthenticationSuccessHandler
         System.out.println("로그인 성공 - 회원번호: " + user.getU_id() 
                          + ", 아이디: " + user.getId() 
                          + ", 역할: " + role);
+        
+        
 
-        // ✅ 수정된 로직: 로그인 직전 페이지를 확인하여 장바구니로 리다이렉트할지 결정
+     // ✅ 역할(Role) 기반 리다이렉트 처리
         String redirectUrl = request.getHeader("Referer");
-        if (redirectUrl != null && redirectUrl.endsWith("/login/loginform")) {
-            // 로그인 폼으로 리다이렉트 되기 전 URL을 세션에서 가져옴
-            String prevUrl = (String) session.getAttribute("prevUrl");
-            // 이전 URL이 /pay 요청이었다면 장바구니 페이지로 리다이렉트
-            if (prevUrl != null && prevUrl.endsWith("/pay")) {
-                 response.sendRedirect(request.getContextPath() + "/bag/login-success");
-            } else {
-                 response.sendRedirect(request.getContextPath() + "/main");
+        if (role.equals("ADMIN")) {
+            // 관리자일 경우
+            response.sendRedirect(request.getContextPath() + "/admin/main");
+        } else if (role.equals("USER")) {
+            // 일반 사용자일 경우
+            // 장바구니에서 로그인 후 돌아오는 경우 처리
+            if (redirectUrl != null && redirectUrl.endsWith("/login/loginform")) {
+                String prevUrl = (String) session.getAttribute("prevUrl");
+                if (prevUrl != null && prevUrl.endsWith("/pay")) {
+                    response.sendRedirect(request.getContextPath() + "/bag/login-success");
+                    return;
+                }
             }
+            response.sendRedirect(request.getContextPath() + "/main");
         } else {
-            // 그 외의 경우 (예: 로그인 폼으로 직접 이동) 메인 페이지로 리다이렉트
+            // 기타 역할이 있을 경우 기본 페이지
             response.sendRedirect(request.getContextPath() + "/main");
         }
     }

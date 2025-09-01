@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -52,17 +53,17 @@
                         <tr>
                             <th scope="row">${status.count}</th>
                             <td>
-                                <a href="/view/detail?id=${book.b_id}">
+                                <a href="/admin/detail?id=${book.b_id}">
                                     <img src="${book.pic}" class="table-book-cover" alt="책 표지" />
                                 </a>
                             </td>
                             <td>
-                                <a href="/view/detail?id=${book.b_id}" class="text-decoration-none text-dark">
+                                <a href="/admin/detail?id=${book.b_id}" class="text-decoration-none text-dark">
                                     ${book.title}
                                 </a>
                             </td>
                             <td>${book.author}</td>
-                            <td>₩ ${book.price}</td>
+                            <td>₩ <fmt:formatNumber value="${book.price}" type="number" groupingUsed="true" /></td>
                             <td class="table-actions">
                                 <a href="/admin/edit/${book.b_id}" class="btn btn-outline-primary btn-sm me-2">수정</a>
                                 <form action="/admin/delete/${book.b_id}" method="post" class="d-inline-block" onsubmit="return confirm('정말 삭제하시겠습니까?');">
