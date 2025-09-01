@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="chart.ChartMapper">
+
+    <!-- 1. 전체/카테고리별 Top5 판매량 -->
+    <select id="getTopSales" parameterType="string" resultType="chart.TopSalesDTO">
+        <![CDATA[
+        SELECT * FROM (
+            SELECT b.title, SUM(pi.quantity) AS totalQty
+            FROM book b JOIN payment_items pi ON b.title = pi.title
+        ]]>
+        <if test="category != '전체'">
+            <![CDATA[
+            WHERE b.category = #{category}
+            ]]>
+        </if>
+        <![CDATA[
+            GROUP BY b.title ORDER BY totalQty DESC
+        ) WHERE ROWNUM <= 5
+        ]]>
+    </select>
+
+    <!-- 2. 각 별점 개수 -->
+    <select id="getScoreCount" resultType="chart.ScoreDTO">
+        <![CDATA[
+        SELECT score, COUNT(*) AS count
+        FROM comments
+        GROUP BY score
+        ORDER BY score
+        ]]>
+    </select>
+
+    <!-- 3. 총 별점 평균 -->
+    <select id="getReviewAvg" resultType="chart.ReviewAvgDTO">
+        <![CDATA[
+        SELECT ROUND(AVG(score),2) AS avgScore,
+               COUNT(*) AS reviewCount
+        FROM comments
+        ]]>
+    </select>
+
+    <!-- 4. 전체/카테고리별 Top5 별점 -->
+    <select id="getTopScore" parameterType="string" resultType="chart.TopScoreDTO">
+        <![CDATA[
+        SELECT * FROM (
+            SELECT b.title,
+                   ROUND(AVG(c.score),2) AS avgScore,
+                   COUNT(c.score) AS reviewCount
+            FROM book b JOIN comments c ON b.b_id = c.b_id
+        ]]>
+        <if test="category != '전체'">
+            <![CDATA[
+            WHERE b.category = #{category}
+            ]]>
+        </if>
+        <![CDATA[
+            GROUP BY b.title ORDER BY avgScore DESC
+        ) WHERE ROWNUM <= 5
+        ]]>
+    </select>
+
+    <!-- 5. 오늘 날짜 판매량 -->
+    <select id="getTodaySales" resultType="chart.SalesDTO">
+        <![CDATA[
+        SELECT SUM(pi.price * pi.quantity) AS totalAmount
+        FROM payment_items pi
+        WHERE TRUNC(pi.sale_date) = TRUNC(SYSDATE)
+        ]]>
+    </select>
+
+    <!-- 6. 일별 판매량 -->
+    <select id="getDailySales" resultType="chart.SalesDTO">
+        <![CDATA[
+        SELECT TO_CHAR(pi.sale_date,'YY/MM/DD') AS label,
+               SUM(pi.price * pi.quantity) AS totalAmount
+        FROM payment_items pi
+        GROUP BY TO_CHAR(pi.sale_date,'YY/MM/DD')
+        ORDER BY label
+        ]]>
+    </select>
+
+    <!-- 7. 월별 판매량 -->
+    <select id="getMonthlySales" resultType="chart.SalesDTO">
+        <![CDATA[
+        SELECT TO_CHAR(pi.sale_date,'YYYY-MM') AS label,
+               SUM(pi.price * pi.quantity) AS totalAmount
+        FROM payment_items pi
+        GROUP BY TO_CHAR(pi.sale_date,'YYYY-MM')
+        ORDER BY label
+        ]]>
+    </select>
+
+    <!-- 8. 연도별 판매량 -->
+    <select id="getYearlySales" resultType="chart.SalesDTO">
+        <![CDATA[
+        SELECT TO_CHAR(pi.sale_date,'YYYY') AS label,
+               SUM(pi.price * pi.quantity) AS totalAmount
+        FROM payment_items pi
+        GROUP BY TO_CHAR(pi.sale_date,'YYYY')
+        ORDER BY label
+        ]]>
+    </select>
+
+</mapper>

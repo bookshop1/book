@@ -33,4 +33,5 @@ public interface AdminMapper {
             "info = #{info} " +
             "WHERE b_id = #{b_id}")
 	public void updateBook(AdminBook book);
+
 }

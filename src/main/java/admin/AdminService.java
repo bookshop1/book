@@ -36,6 +36,7 @@ public class AdminService {
 		
 	}
 
+	/*
 	public List<AdminBook> search(String keyword) {
 		return mapper.search(keyword);
 	}
@@ -43,4 +44,5 @@ public class AdminService {
 	public List<AdminBook> findByCategory(String category) {
         return mapper.findByCategory(category);
     }
+    */
 }

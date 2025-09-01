@@ -3,32 +3,33 @@ package chart;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface ChartMapper {
 
-    // 📊 책별 일별 판매량
-    @Select("SELECT title, TO_CHAR(p.pay_date, 'YYYY-MM-DD') AS saleDate, SUM(pi.price * pi.quantity) AS totalSales " +
-            "FROM payment_items pi " +
-            "JOIN payments p ON pi.payment_id = p.id " +
-            "GROUP BY title, TO_CHAR(p.pay_date, 'YYYY-MM-DD') " +
-            "ORDER BY saleDate")
+    // 1. 전체/카테고리별 Top5 판매량
+    List<TopSalesDTO> getTopSales(@Param("category") String category);
+
+    // 2. 각 별점 개수
+    List<ScoreDTO> getScoreCount();
+
+    // 3. 총 별점 평균
+    ReviewAvgDTO getReviewAvg();
+
+    // 4. 전체/카테고리별 Top5 별점
+    List<TopScoreDTO> getTopScore(@Param("category") String category);
+
+    // 5. 오늘 날짜 판매량
+    SalesDTO getTodaySales();
+
+    // 6. 일별 판매량
     List<SalesDTO> getDailySales();
 
-    // 📊 책별 월별 판매량
-    @Select("SELECT title, TO_CHAR(p.pay_date, 'YYYY-MM') AS saleDate, SUM(pi.price * pi.quantity) AS totalSales " +
-            "FROM payment_items pi " +
-            "JOIN payments p ON pi.payment_id = p.id " +
-            "GROUP BY title, TO_CHAR(p.pay_date, 'YYYY-MM') " +
-            "ORDER BY saleDate")
+    // 7. 월별 판매량
     List<SalesDTO> getMonthlySales();
 
-    // 📊 책별 연도별 판매량
-    @Select("SELECT title, TO_CHAR(p.pay_date, 'YYYY') AS saleDate, SUM(pi.price * pi.quantity) AS totalSales " +
-            "FROM payment_items pi " +
-            "JOIN payments p ON pi.payment_id = p.id " +
-            "GROUP BY title, TO_CHAR(p.pay_date, 'YYYY') " +
-            "ORDER BY saleDate")
+    // 8. 연도별 판매량
     List<SalesDTO> getYearlySales();
 }
+

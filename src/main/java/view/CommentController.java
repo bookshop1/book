@@ -16,6 +16,5 @@ public class CommentController {
         service.addComment(comment);
         return "redirect:/view/detail?id=" + comment.getB_id();
     }
-
   
 }

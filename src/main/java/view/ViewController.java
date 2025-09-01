@@ -1,6 +1,7 @@
 package view;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -9,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import chart.ReviewAvgDTO;
 
 @Controller
 @RequestMapping("view")
@@ -19,9 +22,7 @@ public class ViewController {
 	
 	@Autowired
 	CommentService commentService;
-	
-	
-	
+
 	@GetMapping("/detail")
 	public String detail(@RequestParam("id") int id, Model model) {
 		View view = service.getDetail(id);
@@ -30,9 +31,9 @@ public class ViewController {
 		model.addAttribute("view", view);
 		model.addAttribute("comments", comments);
 		
+		ReviewAvgDTO reviewAvg = commentService.getReviewAvgByBookId(id);
+		model.addAttribute("reviewAvg", reviewAvg);
+		
 		return "detail";
 	}
-	
-	
-
 }
